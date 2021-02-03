@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/FridaDZ/static/css/main.5c9f6422.chunk.css",
+    "main.js": "/FridaDZ/static/js/main.6c6c2487.chunk.js",
+    "main.js.map": "/FridaDZ/static/js/main.6c6c2487.chunk.js.map",
+    "runtime-main.js": "/FridaDZ/static/js/runtime-main.a220d571.js",
+    "runtime-main.js.map": "/FridaDZ/static/js/runtime-main.a220d571.js.map",
+    "static/js/2.11e47322.chunk.js": "/FridaDZ/static/js/2.11e47322.chunk.js",
+    "static/js/2.11e47322.chunk.js.map": "/FridaDZ/static/js/2.11e47322.chunk.js.map",
+    "static/js/3.ce3fbe26.chunk.js": "/FridaDZ/static/js/3.ce3fbe26.chunk.js",
+    "static/js/3.ce3fbe26.chunk.js.map": "/FridaDZ/static/js/3.ce3fbe26.chunk.js.map",
+    "index.html": "/FridaDZ/index.html",
+    "static/css/main.5c9f6422.chunk.css.map": "/FridaDZ/static/css/main.5c9f6422.chunk.css.map",
+    "static/js/2.11e47322.chunk.js.LICENSE.txt": "/FridaDZ/static/js/2.11e47322.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a220d571.js",
+    "static/js/2.11e47322.chunk.js",
+    "static/css/main.5c9f6422.chunk.css",
+    "static/js/main.6c6c2487.chunk.js"
+  ]
+}
