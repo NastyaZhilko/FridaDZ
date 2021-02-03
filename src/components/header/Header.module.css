@@ -1,0 +1,16 @@
+import React from "react";
+import {HashRouter, NavLink} from "react-router-dom";
+import {PATH} from "../routes/Routes";
+
+function Header() {
+    return (
+        <div>
+            <NavLink to={PATH.login} className={s.inactive} activeClassName={s.active}>Login:</NavLink>
+            <NavLink to={PATH.passwordRecovery} className={s.inactive} activeClassName={s.active}>Password recovery:</NavLink>
+            <NavLink to={PATH.profile} className={s.inactive} activeClassName={s.active}>Profile:</NavLink>
+            <NavLink to={PATH.registration} className={s.inactive} activeClassName={s.active}>Registration:</NavLink>
+        </div>
+    );
+}
+
+export default Header;
