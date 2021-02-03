@@ -1,16 +1,29 @@
-import React from "react";
-import {HashRouter, NavLink} from "react-router-dom";
-import {PATH} from "../routes/Routes";
-
-function Header() {
-    return (
-        <div>
-            <NavLink to={PATH.login} className={s.inactive} activeClassName={s.active}>Login:</NavLink>
-            <NavLink to={PATH.passwordRecovery} className={s.inactive} activeClassName={s.active}>Password recovery:</NavLink>
-            <NavLink to={PATH.profile} className={s.inactive} activeClassName={s.active}>Profile:</NavLink>
-            <NavLink to={PATH.registration} className={s.inactive} activeClassName={s.active}>Registration:</NavLink>
-        </div>
-    );
+.sidebar:hover{
+    margin-left: 150px;
 }
+.sidebar{
+    border-radius: 15px;
+    border: 1px solid white;
+    background-color: lightblue;
+    box-shadow: 5px 5px 5px darkgrey;
+    position: fixed;
+    height: 550px;
+    top: 30px;
+    left: -150px;
+    transition-duration: 0.5s;
+    width: 190px;
+}
+.inactive{
+    color: black;
+}
+.active{
+    color: white;
+}
+.text{
+    font-family: PT Sans;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    min-height: 100%;
 
-export default Header;
+}
