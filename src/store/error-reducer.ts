@@ -3,7 +3,7 @@ const initState = {
 
 };
 
-export const reducer = (state = initState, action: any): any => { // fix any
+export const errorReducer = (state = initState, action: any): any => {
     switch (action.type) {
         case "": {
             return state;
@@ -12,4 +12,4 @@ export const reducer = (state = initState, action: any): any => { // fix any
     }
 };
 
-export const changeThemeC = (): any => {}; // fix any
+export const errorAC = (): any => {};

@@ -1,8 +1,18 @@
 import {combineReducers, createStore} from "redux";
-import {reducer} from "./reducer";
+import {loginReducer} from "./login-reducer";
+import {errorReducer} from "./error-reducer";
+import {passwordRecoveryReducer} from "./password-recovery-reducer";
+import {profileReducer} from "./profile-reducer";
+import {registrationReducer} from "./registration-reducer";
+import {newPasswordReducer} from "./new-password-reducer";
 
 const reducers = combineReducers({
-    reducer:reducer
+    login:loginReducer,
+    error:errorReducer,
+    passwordRecovery:passwordRecoveryReducer,
+    profile:profileReducer,
+    registration:registrationReducer,
+    newPassword:newPasswordReducer
 });
 
 const store = createStore(reducers);

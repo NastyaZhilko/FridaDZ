@@ -1,23 +1,53 @@
-.sidebar:hover{
-    margin-left: 150px;
-}
+
 .sidebar{
-    border-radius: 15px;
-    border: 1px solid white;
-    background-color: lightblue;
-    box-shadow: 5px 5px 5px darkgrey;
-    position: fixed;
-    height: 550px;
-    top: 30px;
-    left: -150px;
-    transition-duration: 0.5s;
-    width: 190px;
+    display: flex;
+    align-items: center;
+    background-color: #3c3e41;
+    color: #ffffff;
+    padding: 15px;
+    box-shadow: 0px 3px 5px #535354;
+}
+
+.menu {
+    cursor: pointer;
+    font-size: 40px;
+    color: #ffffff;
+    transition: all 0.5s;
+}
+.menu:hover {
+    color: #ffffff;
+
+}
+
+.containerMenuLinks {
+    visibility: collapse;
+    opacity: 0;
+    transition: all 0.5s;
+    padding: 0;
+    margin: 0;
+}
+.activeMenu {
+    visibility: visible;
+    opacity: 1;
+    padding: 0 55px;
+    justify-content: space-between;
+    transition: all 0.5s ease-in-out;
 }
 .inactive{
-    color: black;
+    color: #2ca299;
+
 }
 .active{
-    color: white;
+    margin-right: 10px;
+    color: #fff;
+    text-transform: uppercase;
+
+}
+
+.active:hover {
+    color: #fff;
+    text-decoration: none;
+
 }
 .text{
     font-family: PT Sans;
