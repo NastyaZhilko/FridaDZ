@@ -16,13 +16,14 @@ const App = () => {
       //  withCredentials:true,
     })
     const obj = {
-        email: "nya-1admin@nya.nya",
+        email: "nya-1admin1@gmail.com",
         password: "1qazxcvBG"
     }
     useEffect(()=>{
-debugger
         instance.post("auth/register",
-            obj).then((data)=>console.log(data)).catch((error)=>console.log(error)).finally(()=>{
+            obj).then((data)=>console.log(data))
+            .catch((error)=>console.log(error))
+            .finally(()=>{
             console.log("finally")
         })
     },[])
