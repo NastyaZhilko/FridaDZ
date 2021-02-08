@@ -1,19 +1,31 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {HashRouter} from "react-router-dom";
 import Routes from "./components/routes/Routes";
 import Header from "./components/header/Header";
 import {Provider} from "react-redux";
 import store from "./store/store";
-import SuperInputText from "./components/common/SuperInput/SuperInput";
+import axios from "axios";
+
+
+
 
 const App = () => {
-    const foo = (e:string) =>{
-        console.log(e)
+    const instance = axios.create({
+        baseURL:'http://localhost:7542/2.0/',
+      //  withCredentials:true,
+    })
+    const obj = {
+        email: "nya-1admin@nya.nya",
+        password: "1qazxcvBG"
     }
-    const foo1 = ()=> {
-        console.log(159)
-    }
+    useEffect(()=>{
+
+        instance.post("auth/register",
+            obj).then((data)=>console.log(data)).catch((error)=>console.log(error)).finally(()=>{
+            console.log("finally")
+        })
+    },[])
     return (
         <div className="App">
             <HashRouter>
@@ -21,7 +33,6 @@ const App = () => {
                     <Header/>
                     <Routes/>
                 </Provider>
-                <SuperInputText onChangeText={foo} onEnter={foo1} error={'Error'} type={'radio'} className={'titleColor'}/>
             </HashRouter>
         </div>
     );
