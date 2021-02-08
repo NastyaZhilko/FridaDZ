@@ -20,7 +20,7 @@ const App = () => {
         password: "1qazxcvBG"
     }
     useEffect(()=>{
-
+debugger
         instance.post("auth/register",
             obj).then((data)=>console.log(data)).catch((error)=>console.log(error)).finally(()=>{
             console.log("finally")
