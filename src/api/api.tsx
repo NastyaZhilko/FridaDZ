@@ -1,5 +1,9 @@
-import {instance} from "./instance";
+import axios from "axios";
 
+const api = axios.create({
+    baseURL: `http://localhost:7542/2.0/`,
+    withCredentials: true
+})
 export type ForgotParamsType={
     email:string
     from:string
@@ -18,10 +22,10 @@ export type ResponseNewPasswordType={
 
 export const passwordAPI = {
     forgot(data:ForgotParamsType) {
-        return instance.post<ResponseNewPasswordType>('auth/forgot', data)
+        return api.post<ResponseNewPasswordType>('auth/forgot', data)
     },
 
     setNewPassword(data:SetNewPasswordParamsType) {
-        return instance.post<ResponseNewPasswordType>('auth/set-new-password', data)
+        return api.post<ResponseNewPasswordType>('auth/set-new-password', data)
     }
 };
