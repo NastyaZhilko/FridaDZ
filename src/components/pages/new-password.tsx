@@ -1,9 +1,20 @@
-
 import React from "react";
+import SuperInputText from "../common/SuperInput/SuperInput";
+import SuperButton from "../common/SuperButton/SuperButton";
+import style from "./new-password.module.css"
 
 function NewPassword() {
     return (
-        <div>Entering a new password</div>
+        <div className={style.container}>
+            <h3>Set password</h3>
+            <SuperInputText/>
+            <span>New password</span>
+            <SuperInputText/>
+            <span>Confirm new password</span>
+            <SuperButton>
+                Change password
+            </SuperButton>
+        </div>
     );
 }
 

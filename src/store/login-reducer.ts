@@ -1,15 +1,27 @@
+export type LoginFormData = {
+    email: string
+    password: string
+    rememberMe: boolean
+}
 
-const initState = {
 
+const initState: LoginFormData = {
+    email: "nya-admin@nya.nya",
+    password: "1qazxcvBG",
+    rememberMe: false,
 };
 
-export const loginReducer = (state = initState, action: any): any => {
+export const loginReducer = (state = initState, action: LoginActionType): any => {
     switch (action.type) {
-        case "": {
+        case "LOGIN": {
             return state;
         }
-        default: return state;
+        default:
+            return state;
     }
 };
 
-export const loginAC = (): any => {};
+type LoginActionType = ReturnType<typeof loginAC>
+
+export const loginAC = (data: LoginFormData) => ({type: 'LOGIN', data } as const);
+
