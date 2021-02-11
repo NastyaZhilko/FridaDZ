@@ -1,43 +1,70 @@
-import axios from "axios";
+import {Dispatch} from "react";
+import {RegistrationDataType, passwordAPI} from "../api/api";
+
+const REGISTRATION = "REGISTRATION"
+const ERROR = "ERROR"
 
 const initState = {
     isRegistration: false,
     isError: false,
     titleError: '',
-    passwordRegExp: ''
 };
+type initStateType = {
+    isRegistration: boolean
+    isError: boolean
+    titleError: string
+}
 
-export const registrationReducer = (state = initState, action: any): any => {
+type ActionType = RegistrationType | ErrorType
+
+export const registrationReducer = (state = initState, action: ActionType): initStateType => {
     switch (action.type) {
-        case "REGISTRATION": {
+        case REGISTRATION: {
             return {...state, isRegistration: true};
         }
-        case "ERROR": {
-            return {...state, isError: true, titleError: action.titleError, passwordRegExp: action.passwordRegExp};
+        case ERROR: {
+            return {...state, isError: true, titleError: action.titleError};
         }
         default: return state;
     }
 };
-
-export const registrationAC = (): any => {
+type RegistrationType = {
+    type: typeof REGISTRATION
+}
+type ErrorType = {
+    type: typeof ERROR
+    titleError: string
+}
+export const registrationAC = (): RegistrationType => {
     return {type: 'REGISTRATION'}
 };
-export const errorAC = (titleError:any, passwordRegExp:any): any => {
-    return {type: 'ERROR', titleError: titleError, passwordRegExp: passwordRegExp }
+export const errorAC = (titleError:string,): ErrorType => {
+    return {type: 'ERROR', titleError: titleError}
 };
-// const obj = {
-//     email: "nya-admin11@gmail.com",
-//nya-admin@nya.nya
-//     password: "1qazxcvBG"
-// }
-export const registrationThunkCreator = (obj:any) => (dispatch:any) => {
-            axios.post("http://localhost:7542/2.0/auth/register", obj)
+
+type ResponseErrorType = {
+    response:DataType
+}
+type DataType = {
+        data : {
+            error: string
+            in: string
+            isEmailValid?: boolean
+            isPassValid?: boolean
+            passwordRegExp?: string
+        }
+}
+
+export const registrationThunkCreator = (registrationData:RegistrationDataType) => (dispatch:Dispatch<any>) => {
+            passwordAPI.registration(registrationData)
                 .then((data) => {
+                    console.log(data.data.addedUser._id)
                     dispatch(registrationAC())
-                    console.log(data)
                 })
-                .catch((error)=>{
-                    dispatch(errorAC(error.response.data.error, error.response.data.passwordRegExp))
-                    console.log((error.response.data.error))
+                .catch((error: ResponseErrorType)=>{
+                    console.log(error.response.data.error)
+                    console.log(error.response.data.isEmailValid)
+                    console.log(error.response.data.isPassValid)
+                    dispatch(errorAC(error.response.data.error))
                 })
 }

@@ -7,9 +7,9 @@ function NewPassword() {
     return (
         <div className={style.container}>
             <h3>Set password</h3>
-            <SuperInputText/>
+            <SuperInputText type={'password'} name={'password'}/>
             <span>New password</span>
-            <SuperInputText/>
+            <SuperInputText type={'password'} name={'password'}/>
             <span>Confirm new password</span>
             <SuperButton>
                 Change password
