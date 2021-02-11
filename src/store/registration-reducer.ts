@@ -3,19 +3,22 @@ import {RegistrationDataType, passwordAPI} from "../api/api";
 
 const REGISTRATION = "REGISTRATION"
 const ERROR = "ERROR"
+const LOADING = "LOADING"
 
 const initState = {
     isRegistration: false,
     isError: false,
     titleError: '',
+    isLoading: false
 };
 type initStateType = {
     isRegistration: boolean
     isError: boolean
     titleError: string
+    isLoading: boolean
 }
 
-type ActionType = RegistrationType | ErrorType
+type ActionType = RegistrationType | ErrorType | LoadingType
 
 export const registrationReducer = (state = initState, action: ActionType): initStateType => {
     switch (action.type) {
@@ -24,6 +27,9 @@ export const registrationReducer = (state = initState, action: ActionType): init
         }
         case ERROR: {
             return {...state, isError: true, titleError: action.titleError};
+        }
+        case LOADING: {
+            return {...state, isLoading: action.isLoading}
         }
         default: return state;
     }
@@ -35,11 +41,18 @@ type ErrorType = {
     type: typeof ERROR
     titleError: string
 }
+type LoadingType = {
+    type: typeof LOADING
+    isLoading: boolean
+}
 export const registrationAC = (): RegistrationType => {
     return {type: 'REGISTRATION'}
 };
 export const errorAC = (titleError:string,): ErrorType => {
     return {type: 'ERROR', titleError: titleError}
+};
+export const loadingAC = (isLoading:boolean): LoadingType => {
+    return {type: 'LOADING', isLoading: isLoading}
 };
 
 type ResponseErrorType = {
@@ -56,15 +69,16 @@ type DataType = {
 }
 
 export const registrationThunkCreator = (registrationData:RegistrationDataType) => (dispatch:Dispatch<any>) => {
+                dispatch(loadingAC(true))
             passwordAPI.registration(registrationData)
                 .then((data) => {
-                    console.log(data.data.addedUser._id)
                     dispatch(registrationAC())
                 })
                 .catch((error: ResponseErrorType)=>{
-                    console.log(error.response.data.error)
-                    console.log(error.response.data.isEmailValid)
-                    console.log(error.response.data.isPassValid)
                     dispatch(errorAC(error.response.data.error))
                 })
+                .finally(()=>{
+                    dispatch(loadingAC(false))
+            })
+
 }
