@@ -72,9 +72,11 @@ export const registrationThunkCreator = (registrationData:RegistrationDataType) 
                 dispatch(loadingAC(true))
             passwordAPI.registration(registrationData)
                 .then((data) => {
+                    debugger
                     dispatch(registrationAC())
                 })
                 .catch((error: ResponseErrorType)=>{
+                    debugger
                     dispatch(errorAC(error.response.data.error))
                 })
                 .finally(()=>{
