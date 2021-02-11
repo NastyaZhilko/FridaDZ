@@ -37,8 +37,8 @@ export type ResponseRegistrationDataType = {
         }
 }
 export const passwordAPI = {
-    forgot(data:ForgotParamsType) {
-        return api.post<ResponseNewPasswordType>('auth/forgot', data)
+    forgot(email:string) {
+        return api.post<ResponseNewPasswordType>('auth/forgot', email)
     },
 
     setNewPassword(data:SetNewPasswordParamsType) {

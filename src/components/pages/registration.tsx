@@ -81,7 +81,7 @@ function Registration() {
             <div><SuperButton disabled={passwordLength || emailLength} style={(passwordLength || emailLength)? undefined: {background:"green"}}>registration</SuperButton></div>
             {isError && <div style={{color:"red"}}>{titleError}</div>}
         </form>
-    );
+    )
 }
 
 export default Registration;
