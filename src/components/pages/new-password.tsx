@@ -19,6 +19,7 @@ function NewPassword() {
     const [passwordError, setPasswordError] = useState(false)
     const [passwordErrorDub, setPasswordErrorDub] = useState(false)
     const [buttonColor, setButtonColor] = useState('')
+
     const onSubmit = (e: any) => {
         e.preventDefault();
         const password = e.target.password.value

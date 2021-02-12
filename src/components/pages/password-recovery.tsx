@@ -9,7 +9,7 @@ import {passwordRecoveryTC} from "../../store/password-recovery-reducer";
 
 function PasswordRecovery() {
     const dispatch = useDispatch()
-    const isMailSend = useSelector<AppStoreType, boolean>(state => state.passwordRecovery.isMessageSend)
+    //const isMailSend = useSelector<AppStoreType, boolean>(state => state.passwordRecovery.isMessageSend)
 
     const sendMail =(e:any)=>{
         e.preventDefault();
@@ -26,7 +26,7 @@ function PasswordRecovery() {
         <div>
             <h3>Password recovery</h3>
             <div className={style.container}>
-                <SuperInputText name={'email'}/>
+                <SuperInputText name={'email'}  placeholder="Email"/>
                 <span>Enter your email</span>
                 <SuperButton>
                     Send

@@ -1,4 +1,5 @@
 import axios from "axios";
+import {LoginFormData} from "../store/login-reducer";
 
 const api = axios.create({
     baseURL: 'https://neko-back.herokuapp.com/2.0',
@@ -37,11 +38,11 @@ export const passwordAPI = {
     forgot(email: string | null) {
         return api.post<ResponseRestoreType>('auth/forgot', {
             email,
-            from:'nasten4ik2010@gmail.com',
+            from:"test-front-admin <ai73a@yandex.by>",
             message:`<div style="background-color: lime; padding: 15px">
               password recovery link: 	
               <a href='http://localhost:3000/FridaDZ#/newPassword/$token$'>	
-              http://localhost:3000/FridaDZ#/newPassword/$token$ </a></div>`})
+              Link </a></div>`})
     },
 
     setNewPassword(password: string, resetPasswordToken: string) {
@@ -50,5 +51,17 @@ export const passwordAPI = {
 
     registration(data:RegistrationDataType){
         return api.post<ResponseRegistrationDataType>('auth/register', data)
+    }
+};
+
+export const authAPI = {
+    login(data: LoginFormData) {
+        return api.post('auth/login', data)
+    },
+    authMe() {
+        return api.post('auth/me', {})
+    },
+    logout() {
+        return api.delete('auth/me')
     }
 };
