@@ -1,4 +1,5 @@
 import axios from "axios";
+import {LoginFormData} from "../store/login-reducer";
 
 const api = axios.create({
     baseURL: 'https://neko-back.herokuapp.com/2.0',
@@ -50,5 +51,17 @@ export const passwordAPI = {
 
     registration(data:RegistrationDataType){
         return api.post<ResponseRegistrationDataType>('auth/register', data)
+    }
+};
+
+export const authAPI = {
+    login(data: LoginFormData) {
+        return api.post('auth/login', data)
+    },
+    authMe() {
+        return api.post('auth/me', {})
+    },
+    logout() {
+        return api.delete('auth/me')
     }
 };
