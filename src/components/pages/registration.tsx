@@ -4,15 +4,24 @@ import SuperButton from "../common/SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
 import {registrationAC, registrationThunkCreator} from "../../store/registration-reducer";
 import { Redirect } from "react-router-dom";
+import {log} from "util";
+import SuperPassword from "../common/SuperButton/SuperPassword/SuperPassword";
+import Loading from "./Loading";
+import {AppStoreType} from "../../store/store";
 
 function Registration() {
     const dispatch = useDispatch()
-    const isRegistration = useSelector<any,any>((state)=>state.registration.isRegistration)
-    const isError = useSelector<any,any>((state)=>state.registration.isError)
-    //const titleError = useSelector<any,any>((state)=>state.registration.titleError)
+    const isRegistration = useSelector<AppStoreType,boolean>((state)=>state.registration.isRegistration)
+    const isError = useSelector<AppStoreType,boolean>((state)=>state.registration.isError)
+    const titleError = useSelector<AppStoreType,string>((state)=>state.registration.titleError)
+    const isLoading = useSelector<AppStoreType,boolean>((state)=>state.registration.isLoading)
     const [passwordLength, setPasswordLength] = useState(true)
+    const [emailLength, setEmailLength] = useState(true)
     const [passwordError, setPasswordError] = useState(false)
-    const [buttonColor, setButtonColor] = useState('')
+    const [emailError, setEmailError] = useState(false)
+    const [emailValue, setEmailValue] = useState('')
+    const [passwordValue, setPasswordValue] = useState('')
+
     function submit(e:any){ // e:React.FormEvent<HTMLFormElement>
         e.preventDefault();
         const obj = {
@@ -23,33 +32,54 @@ function Registration() {
     }
 
     function changePassword(e:any){
-        console.log(e.currentTarget.value.length)
+        setPasswordValue(e.currentTarget.value)
         if(e.currentTarget.value.length >= 7){
             setPasswordLength(false)
             setPasswordError(false)
-            setButtonColor('green')
+
         }else{
             setPasswordLength(true)
-            setButtonColor('')
         }
     }
-    function blur(e:any){
-        console.log(e.target.value)
+    function changEmail(e:any){
+        setEmailValue(e.currentTarget.value)
+        if(e.currentTarget.value.length >= 7 && (e.currentTarget.value.indexOf("@") !== -1)){
+            setEmailLength(false)
+            setEmailError(false)
+        }else{
+            setEmailLength(true)
+        }
+    }
+
+    function blurPassword(e:any){
         if(e.currentTarget.value.length < 7){
             setPasswordError(true)
         }
     }
 
+    function blurEmail(e:any){
+        if(e.currentTarget.value.length < 7 || (e.currentTarget.value.indexOf("@") == -1)){
+            setEmailError(true)
+        }
+    }
+
+    if(isLoading){
+        return(
+            <Loading/>
+        )
+    }
     if(isRegistration){
         return <Redirect to={'/login'}/>
     }
+
     return (
         <form onSubmit={submit} style={{marginTop:'50px'}}>
-            <div><label>Email<SuperInputText name={'email'}/></label></div>
-            <div><label>Password<SuperInputText type={'password'} name={'password'} onChange={changePassword} onBlur={blur}/></label></div>
-            {passwordError && <div style={{color:"red"}}>{'Password must be more than 7 characters...'}</div>}
-            <div><SuperButton disabled={passwordLength} style={{background:buttonColor}}>registration</SuperButton></div>
-            {isError && <div style={{color:"red"}}>{'not valid email'}</div>}
+            <div><label>Email<SuperInputText name={'email'} onChange={changEmail} value={emailValue} onBlur={blurEmail} /></label></div>
+            <div style={{height:'50px'}}>{emailError && <div style={{color:"red"}}>{'not valid email'}</div>}</div>
+            <div><label>Password<SuperPassword type={'password'} name={'password'} onChange={changePassword} value={passwordValue} onBlur={blurPassword}/></label></div>
+            <div style={{height:'50px'}}>{passwordError && <div style={{color:"red"}}>{'Password must be more than 7 characters...'}</div>}</div>
+            <div><SuperButton disabled={passwordLength || emailLength} style={(passwordLength || emailLength)? undefined: {background:"green"}}>registration</SuperButton></div>
+            {isError && <div style={{color:"red"}}>{titleError}</div>}
         </form>
     )
 }
