@@ -42,7 +42,7 @@ export const passwordAPI = {
             message:`<div style="background-color: lime; padding: 15px">
               password recovery link: 	
               <a href='http://localhost:3000/FridaDZ#/newPassword/$token$'>	
-              http://localhost:3000/FridaDZ#/newPassword/$token$ </a></div>`})
+              Link </a></div>`})
     },
 
     setNewPassword(password: string, resetPasswordToken: string) {
