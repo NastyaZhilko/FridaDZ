@@ -9,16 +9,18 @@ import {passwordRecoveryTC} from "../../store/password-recovery-reducer";
 
 function PasswordRecovery() {
     const dispatch = useDispatch()
-    const isMailSend = useSelector<AppStoreType, boolean>(state => state.passwordRecovery.isMailSend)
+    const isMailSend = useSelector<AppStoreType, boolean>(state => state.passwordRecovery.isMessageSend)
 
     const sendMail =(e:any)=>{
         e.preventDefault();
-        const email = e.currentTarget.email.value
+        const email = e.target.email.value
+       // alert(email)
         dispatch(passwordRecoveryTC(email))
+
     }
-    if (isMailSend) {
+  /*  if (isMailSend) {
         return <Redirect to={'/login'}/>
-    }
+    }*/
     return (
         <form onSubmit={sendMail}>
         <div>
