@@ -3,9 +3,15 @@ import {NavLink} from "react-router-dom";
 
 import s from './Header.module.css';
 import {PATH} from "../routes/Routes";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStoreType} from "../../store/store";
+import {logout} from "../../store/login-reducer";
 
 function Header() {
     const [activeMenu, setActiveMenu] = useState<boolean>(false);
+    const isAuth = useSelector<AppStoreType, boolean>(state => state.login.isAuth)
+    const dispatch = useDispatch()
+
     const toggle = () => {
         setActiveMenu(!activeMenu)
     }
@@ -21,6 +27,8 @@ function Header() {
                          activeClassName={s.active}>  Registration  </NavLink>
                 <NavLink to={PATH.newPassword} className={s.inactive}
                          activeClassName={s.active}>  Entering a new password  </NavLink>
+                {isAuth ? <button onClick={() => dispatch(logout)}>Log out</button> :
+                    <NavLink to={'/login'}>Login</NavLink>}
 
             </div>
         </div>
