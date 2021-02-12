@@ -1,21 +1,18 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: `http://localhost:7542/2.0/`,
+    baseURL: 'https://neko-back.herokuapp.com/2.0',
     withCredentials: true
 })
-export type ForgotParamsType={
-    email:string
-    from:string
-    message:boolean
-}
+
+
 
 export type SetNewPasswordParamsType={
     password:string
     resetPasswordToken:string
 }
 
-export type ResponseNewPasswordType={
+export type ResponseRestoreType={
     info: string
     error:string
 }
@@ -37,12 +34,18 @@ export type ResponseRegistrationDataType = {
         }
 }
 export const passwordAPI = {
-    forgot(email:string) {
-        return api.post<ResponseNewPasswordType>('auth/forgot', email)
+    forgot(email: string | null) {
+        return api.post<ResponseRestoreType>('auth/forgot', {
+            email,
+            from:'nasten4ik2010@gmail.com',
+            message:`<div style="background-color: lime; padding: 15px">
+              password recovery link: 	
+              <a href='http://localhost:3000/FridaDZ#/newPassword/$token$'>	
+              http://localhost:3000/FridaDZ#/newPassword/$token$ </a></div>`})
     },
 
-    setNewPassword(data:SetNewPasswordParamsType) {
-        return api.post<ResponseNewPasswordType>('auth/set-new-password', data)
+    setNewPassword(password: string, resetPasswordToken: string) {
+        return api.post<ResponseRestoreType>('auth/set-new-password', {password, resetPasswordToken})
     },
 
     registration(data:RegistrationDataType){

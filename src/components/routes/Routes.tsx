@@ -27,7 +27,7 @@ function Routes() {
                 <Route path={'/passwordRecovery'} exact render={() => <PasswordRecovery/>}/>
                 <Route path={'/profile'} exact render={() => <Profile/>}/>
                 <Route path={'/registration'} exact render={() => <Registration/>}/>
-                <Route path={'/newPassword'} exact render={() => <NewPassword/>}/>
+                <Route path={'/newPassword'}  render={() => <NewPassword/>}/>
 
                 <Route render={() => <Error404/>}/>
                 //у этого роута нет пути, он отрисуется если пользователь захочет попасть на несуществующую страницу
