@@ -38,7 +38,7 @@ export const passwordAPI = {
     forgot(email: string | null) {
         return api.post<ResponseRestoreType>('auth/forgot', {
             email,
-            from:'nasten4ik2010@gmail.com',
+            from:"test-front-admin <ai73a@yandex.by>",
             message:`<div style="background-color: lime; padding: 15px">
               password recovery link: 	
               <a href='http://localhost:3000/FridaDZ#/newPassword/$token$'>	
