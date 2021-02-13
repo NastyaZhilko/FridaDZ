@@ -44,7 +44,8 @@ function Registration() {
 
     function changEmail(e: any) {
         setEmailValue(e.currentTarget.value)
-        if (e.currentTarget.value.length >= 7 && (e.currentTarget.value.indexOf("@") !== -1)) {
+        //if (e.currentTarget.value.length >= 7 && (e.currentTarget.value.indexOf("@") !== -1)) {
+        if (e.currentTarget.value.length >= 7 && (/^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i.test(e.currentTarget.value))) {
             setEmailLength(false)
             setEmailError(false)
         } else {
@@ -59,7 +60,7 @@ function Registration() {
     }
 
     function blurEmail(e: any) {
-        if (e.currentTarget.value.length < 7 || (e.currentTarget.value.indexOf("@") == -1)) {
+        if (e.currentTarget.value.length < 7 || !(/^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i.test(e.currentTarget.value))) {
             setEmailError(true)
         }
     }
