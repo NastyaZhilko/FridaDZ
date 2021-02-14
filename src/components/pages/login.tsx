@@ -17,13 +17,11 @@ export function Login() {
     }
 
     const submitLoginData = (e: FormEvent<HTMLFormElement>) => {
-        debugger
         e.preventDefault();
         const email = e.currentTarget.email.value
         const password = e.currentTarget.password.value
         const rememberMe: boolean = e.currentTarget.rememberMe.value
         const data: LoginFormData = {email, password, rememberMe}
-        debugger
         dispatch(login(data))
     }
 

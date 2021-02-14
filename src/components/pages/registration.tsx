@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {FormEvent, useState} from "react";
 import SuperInputText from "../common/SuperInput/SuperInput";
 import SuperButton from "../common/SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
@@ -22,11 +22,11 @@ function Registration() {
     const [emailValue, setEmailValue] = useState('')
     const [passwordValue, setPasswordValue] = useState('')
 
-    function submit(e: any) { // e:React.FormEvent<HTMLFormElement>
+    function submit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const obj = {
-            email: e.target.email.value,
-            password: e.target.password.value
+            email: e.currentTarget.email.value,
+            password: e.currentTarget.password.value
         }
         dispatch(registrationThunkCreator(obj))
     }
