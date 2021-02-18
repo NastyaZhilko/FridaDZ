@@ -28,15 +28,8 @@ function Packs(){
             </div>
             {packs.map((pack:any, index:number)=>{
                 return <div style={{display:'flex', justifyContent:'center'}}>
-                    <div key={index}>{`${pack.name} ---- ${pack.cardsCount}----${pack.updated}-----`}</div>
-                    <div>
-                        <button name={"del"} >Delete</button>
-                    </div>
-                    <div>
-                        <button name={"update"}>Update</button>
-                    </div>
-
-                    <Cards packId={pack._id}/>
+                <div key={index}>{`${pack.name} ---- ${pack.cardsCount}----`}</div>
+                <Cards packId={pack._id}/>
                 </div>
             })}
             <PaginationComponent  options={options}/>
