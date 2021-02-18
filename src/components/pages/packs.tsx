@@ -18,7 +18,14 @@ function Packs(){
             <SliderAnt/>
             <SortByDate/>
             <SearchComponent/>
+            <div style={{display:'flex', justifyContent:'center'}}>
+            <div>Name</div>
+            <div>CardsCount</div>
+            <div>Update</div>
+            <button>Add</button>
 
+            <div>Cards</div>
+            </div>
             {packs.map((pack:any, index:number)=>{
                 return <div style={{display:'flex', justifyContent:'center'}}>
                     <div key={index}>{`${pack.name} ---- ${pack.cardsCount}----${pack.updated}-----`}</div>
