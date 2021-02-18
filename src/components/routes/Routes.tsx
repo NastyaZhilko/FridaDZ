@@ -6,7 +6,7 @@ import PasswordRecovery from "../pages/password-recovery";
 import Profile from "../pages/profile";
 import Registration from "../pages/registration";
 import NewPassword from "../pages/new-password";
-import Packs from "../pages/Packs";
+import Packs from "../pages/packs";
 import {PackCards} from "../pages/PackCards";
 import {Cards} from "../pages/Cards";
 
