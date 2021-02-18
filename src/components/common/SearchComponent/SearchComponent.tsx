@@ -1,7 +1,8 @@
 import React, {ChangeEvent, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {packsAPI} from "../../../api/api";
-import {changeInputTC, packsTC} from "../../../store/cards-reducer";
+import {changeInputTC} from "../../../store/packs-reducer";
+
 
 
 export function SearchComponent({cards}: any) {
