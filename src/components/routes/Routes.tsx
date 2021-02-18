@@ -7,7 +7,7 @@ import PasswordRecovery from "../pages/password-recovery";
 import Profile from "../pages/profile";
 import Registration from "../pages/registration";
 import NewPassword from "../pages/new-password";
-import Cards from "../pages/Cards";
+import Packs from "../pages/Packs";
 
 export const PATH = {
     login: '/login',
@@ -29,8 +29,8 @@ function Routes() {
                 <Route path={'/passwordRecovery'} exact render={() => <PasswordRecovery/>}/>
                 <Route path={'/profile'} exact render={() => <Profile/>}/>
                 <Route path={'/registration'} exact render={() => <Registration/>}/>
-                <Route path={'/newPassword/:resetPasswordToken'}  render={() => <NewPassword/>}/>
-                <Route path={'/packs'}  render={() => <Cards/>}/>
+                <Route path={'/newPassword/:resetPasswordToken'} exact render={() => <NewPassword/>}/>
+                <Route path={'/packs'} exact render={() => <Packs/>}/>
 
                 <Route render={() => <Error404/>}/>
                 //у этого роута нет пути, он отрисуется если пользователь захочет попасть на несуществующую страницу

@@ -6,11 +6,13 @@ export function SortByDate(){
     const dispatch = useDispatch()
     const pageCount = useSelector<any,any>(state=>state.cards.pageCount)
     const page = useSelector<any, any>(state => state.cards.page)
+    const min = useSelector<any, any>(state => state.cards.minCardsCount)
+    const max = useSelector<any, any>(state => state.cards.maxCardsCount)
     function upDate(){
-        dispatch(sortByDateUpTC(page, pageCount, '0created'))
+        dispatch(sortByDateUpTC(page, pageCount, '0created', min, max))
     }
     function downDate(){
-        dispatch(sortByDateUpDown(page, pageCount, '1created'))
+        dispatch(sortByDateUpDown(page, pageCount, '1created', min, max))
     }
 
     return(

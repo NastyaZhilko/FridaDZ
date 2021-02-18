@@ -6,7 +6,7 @@ import {SearchComponent} from "../common/SearchComponent/SearchComponent";
 import {SortByDate} from "../common/SortByDate/SortByDate";
 import {SliderAnt} from "../common/PaginationComponent/RangeAnt/RangeAnt";
 
-function Cards(){
+function Packs(){
     //const initValueOption = 10
     const options = [10, 20, 30, 40, 50]
     const cards = useSelector<any, any>((state)=>state.cards.newCards)
@@ -15,7 +15,7 @@ function Cards(){
 
     return(
         <div>
-            {/*<SliderAnt/>*/}
+            <SliderAnt/>
             <SortByDate/>
             <SearchComponent cards={cards}/>
             {cards.map((card:any, index:number)=>{
@@ -27,5 +27,5 @@ function Cards(){
         </div>
     )
 }
-export default Cards
+export default Packs
 

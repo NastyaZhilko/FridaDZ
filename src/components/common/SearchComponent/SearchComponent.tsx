@@ -9,6 +9,8 @@ export function SearchComponent({cards}: any) {
     const pageCount = useSelector<any, any>(state => state.cards.pageCount)
     const page = useSelector<any, any>(state => state.cards.page)
     const sortPacks = useSelector<any, any>(state => state.cards.sortPacks)
+    const min = useSelector<any, any>(state => state.cards.minCardsCount)
+    const max = useSelector<any, any>(state => state.cards.maxCardsCount)
     //const [value, setValue] = useState('')
     //const [timerId, setTimerId] = useState<any>()
     // useEffect(()=>{
@@ -52,7 +54,7 @@ export function SearchComponent({cards}: any) {
         //     dispatch({type: 'SEARCHED-PACKS', arr})
         //
         // })
-        dispatch(changeInputTC(e, page, pageCount, sortPacks))
+        dispatch(changeInputTC(e, page, pageCount, sortPacks, min, max))
     }
 
     // useEffect(() => {

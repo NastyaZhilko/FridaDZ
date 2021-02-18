@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import 'antd/dist/antd.css';
 import { Slider } from 'antd';
 import {useDispatch, useSelector} from "react-redux";
@@ -51,16 +51,29 @@ type PropsType = {
 // }
 
 export function SliderAnt( ){
+    const ref = useRef(null)
     const [range, setRange] = useState([0,24])
+
+    const sortPacks = useSelector<any, any>(state => state.cards.sortPacks)
+    const page = useSelector<any,any>((state=>state.cards.page))
+    const pageCount = useSelector<any,any>(state=>state.cards.pageCount)
     const dispatch = useDispatch()
 
 
 
     function onChange(e:any){
-        console.log(e)
+       // console.log(e)
+        //console.log(ref.current)
 
-        dispatch(changeSliderTC(e[0],e[1]))
+        //dispatch(changeSliderTC(e[0],e[1]))
         setRange(e)
+    }
+    function click(){
+     //@ts-ignore
+        const value = ref.current.props.value
+        dispatch(changeSliderTC(page, pageCount,sortPacks, value[0],value[1]))
+
+
     }
     return(
         <div style={{display:'flex'}}>
@@ -75,9 +88,11 @@ export function SliderAnt( ){
                     //onAfterChange={onChange}
                     min={0}
                     max={24}
+                    ref={ref}
                 />
             </div>
             <span>{24}</span>
+            <button onClick={click}>+++</button>
         </div>
     )
 }

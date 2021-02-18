@@ -10,12 +10,12 @@ import {registrationAC} from "./store/registration-reducer";
 import {RangeComponent} from "./components/common/RangeComponent/RangeComponent";
 import {SearchComponent} from "./components/common/SearchComponent/SearchComponent";
 import {PaginationComponent} from "./components/common/PaginationComponent/PaginationComponent";
-import {cardPacksAPI, packsAPI} from "./api/api";
+//import {cardPacksAPI, packsAPI} from "./api/api";
 import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import RangeSlider from "./components/common/PaginationComponent/RangeMaterialUi/RangeMaterialUa";
 import {SliderAnt} from "./components/common/PaginationComponent/RangeAnt/RangeAnt";
-import Cards from "./components/pages/Cards";
+import Packs from "./components/pages/Packs";
 import {getPacksTC} from "./store/cards-reducer";
 import {SortByDate} from "./components/common/SortByDate/SortByDate";
 
@@ -43,7 +43,20 @@ const App = () => {
 
     const dispatch = useDispatch()
     useEffect(()=>{
-       dispatch(getPacksTC())
+      dispatch(getPacksTC())
+
+        // const api = axios.create({
+        //     baseURL: 'https://neko-back.herokuapp.com/2.0',
+        //     //baseURL: 'http://localhost:7542/2.0/',
+        //     withCredentials: true
+        // })
+        // api.get('/cards/card/', {
+        //     params:{
+        //         cardsPack_id: "602e719b1e1cc30e0082d02f"
+        //     }
+        // }).then(data=>{
+        //     debugger
+        // })
 
     },[])
 
@@ -51,21 +64,10 @@ const App = () => {
     return (
         <div className="App">
             <HashRouter>
-
                     <Header/>
                     <Routes/>
 
             </HashRouter>
-            {/*<RangeSlider/>*/}
-            {/*<SliderAnt />*/}
-            {/*<Range  min={range[0]} max={range[1]} defaultValue={[range[0],range[1]]}/>*/}
-            {/*<Range  min={1} max={100} defaultValue={[2,8]}/>*/}
-            {/*<SearchComponent cards={cards}/>*/}
-            {/*<PaginationComponent  initValueOption={initValueOption} options={options}/>*/}
-
-            {/*<Cards/>*/}
-
-
         </div>
     );
 }
