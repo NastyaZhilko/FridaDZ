@@ -36,7 +36,7 @@ export function Login() {
     return (
         <form onSubmit={submitLoginData}>
             <div style={loginStyle}>
-                <h2>Login</h2>
+                <h3>Login</h3>
                 <SuperInput name={'email'} placeholder={'Enter your email'}/>
                 <SuperInput name={'password'} type={'password'} placeholder={'Enter your password'}/>
                 <div><SuperCheckbox name={'rememberMe'} type={'checkbox'}/>

@@ -6,6 +6,7 @@
     color: #ffffff;
     padding: 15px;
     box-shadow: 0px 3px 5px #535354;
+
 }
 
 .menu {
@@ -18,13 +19,23 @@
     color: #ffffff;
 
 }
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid black;
+    width: 850px;
+}
 
 .containerMenuLinks {
+
     visibility: collapse;
     opacity: 0;
     transition: all 0.5s;
     padding: 0;
     margin: 0;
+
+
 }
 .activeMenu {
     visibility: visible;
@@ -35,7 +46,7 @@
 }
 .inactive{
     color: #3737db;
-
+    text-transform: uppercase;
 }
 .active{
     margin-right: 10px;

@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {NavLink} from "react-router-dom";
-
 import s from './Header.module.css';
 import {PATH} from "../routes/Routes";
 import {useDispatch, useSelector} from "react-redux";
@@ -19,17 +18,19 @@ function Header() {
         <div className={s.sidebar}>
             <div className={s.menu} onClick={toggle}>&#9776;</div>
             <div className={`${s.containerMenuLinks} ${activeMenu && s.activeMenu}`}>
-                <NavLink to={PATH.login} className={s.inactive} activeClassName={s.active}>  Login  </NavLink>
-                <NavLink to={PATH.passwordRecovery} className={s.inactive} activeClassName={s.active}>  Password
-                    recovery  </NavLink>
-                <NavLink to={PATH.profile} className={s.inactive} activeClassName={s.active}>  Profile  </NavLink>
+                <div className={s.container}>
+                <NavLink to={PATH.passwordRecovery} className={s.inactive} activeClassName={s.active}>Recovery</NavLink>
+                <NavLink to={PATH.profile} className={s.inactive} activeClassName={s.active}>Profile</NavLink>
                 <NavLink to={PATH.registration} className={s.inactive}
-                         activeClassName={s.active}>  Registration  </NavLink>
+                         activeClassName={s.active}>Registration</NavLink>
                 <NavLink to={PATH.newPassword} className={s.inactive}
-                         activeClassName={s.active}>  Entering a new password  </NavLink>
+                         activeClassName={s.active}>New password</NavLink>
+                    <NavLink to={PATH.packs} className={s.inactive} activeClassName={s.active}>Packs</NavLink>
+                    <NavLink to={PATH.cards} className={s.inactive} activeClassName={s.active}>Cards</NavLink>
                 {isAuth ? <button onClick={() => dispatch(logout)}>Log out</button> :
-                    <NavLink to={'/login'}>Login</NavLink>}
+                    <NavLink to={PATH.login} className={s.inactive} activeClassName={s.active}>Login</NavLink>}
 
+                </div>
             </div>
         </div>
     );

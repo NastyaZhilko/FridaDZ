@@ -15,13 +15,11 @@ export type UserDataType = {
     name: string
     avatar?: string
     publicCardPacksCount: number
-
     created: string
     updated: string
     isAdmin: boolean
     verified: boolean
     rememberMe: boolean
-
     error?: string
 
     /*token: string
@@ -46,7 +44,6 @@ const initState: UserAuthData = {
         name: "",
         avatar: "",
         publicCardPacksCount: 0,
-
         created: '',
         updated: '',
         isAdmin: false,
