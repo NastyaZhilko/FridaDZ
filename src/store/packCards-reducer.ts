@@ -1,7 +1,11 @@
 import {cardsAPI} from "../api/api";
 
 const initState = {
-    cards: [{}],
+    cards: [{
+        question:'',
+        answer:'',
+        updated:''
+    }],
 }
 
 export function packCardsReducer(state=initState, action:any){
