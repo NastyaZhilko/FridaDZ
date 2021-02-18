@@ -19,7 +19,8 @@ function Header() {
         <div className={s.sidebar}>
             <div className={s.menu} onClick={toggle}>&#9776;</div>
             <div className={`${s.containerMenuLinks} ${activeMenu && s.activeMenu}`}>
-                <NavLink to={PATH.login} className={s.inactive} activeClassName={s.active}>  Login  </NavLink>
+                {isAuth ? <button className={s.btnLogout} onClick={() => dispatch(logout())}>Logout</button> :
+                    <NavLink to={PATH.login} className={s.inactive} activeClassName={s.active}>  Login  </NavLink>}
                 <NavLink to={PATH.passwordRecovery} className={s.inactive} activeClassName={s.active}>  Password
                     recovery  </NavLink>
                 <NavLink to={PATH.profile} className={s.inactive} activeClassName={s.active}>  Profile  </NavLink>
@@ -27,8 +28,7 @@ function Header() {
                          activeClassName={s.active}>  Registration  </NavLink>
                 <NavLink to={PATH.newPassword} className={s.inactive}
                          activeClassName={s.active}>  Entering a new password  </NavLink>
-                {isAuth ? <button onClick={() => dispatch(logout)}>Log out</button> :
-                    <NavLink to={'/login'}>Login</NavLink>}
+
 
             </div>
         </div>

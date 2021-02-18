@@ -2,11 +2,9 @@ import axios from "axios";
 import {LoginFormData} from "../store/login-reducer";
 
 const api = axios.create({
-    baseURL: 'https://neko-back.herokuapp.com/2.0',
+    baseURL: 'https://github.com/IgnatZakalinsky/cards-nya-back-2-0/',
     withCredentials: true
 })
-
-
 
 export type SetNewPasswordParamsType={
     password:string
@@ -62,6 +60,7 @@ export const authAPI = {
         return api.post('auth/me', {})
     },
     logout() {
+
         return api.delete('auth/me')
     }
 };
