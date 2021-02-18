@@ -4,7 +4,7 @@ import SuperButton from "../common/SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
 import {registrationThunkCreator} from "../../store/registration-reducer";
 import {Redirect} from "react-router-dom";
-import SuperPassword from "../common/SuperButton/SuperPassword/SuperPassword";
+import SuperPassword from "../common/SuperPassword/SuperPassword";
 import Loading from "./Loading";
 import {AppStoreType} from "../../store/store";
 import style from "./new-password.module.css";
@@ -44,7 +44,6 @@ function Registration() {
 
     function changEmail(e: any) {
         setEmailValue(e.currentTarget.value)
-        //if (e.currentTarget.value.length >= 7 && (e.currentTarget.value.indexOf("@") !== -1)) {
         if (e.currentTarget.value.length >= 7 && (/^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i.test(e.currentTarget.value))) {
             setEmailLength(false)
             setEmailError(false)
@@ -65,11 +64,6 @@ function Registration() {
         }
     }
 
-    // if (isLoading) {
-    //     return (
-    //         <Loading/>
-    //     )
-    // }
     if (isRegistration) {
         return <Redirect to={'/login'}/>
     }

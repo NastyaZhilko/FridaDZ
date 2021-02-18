@@ -29,6 +29,7 @@ function Header() {
                          activeClassName={s.active}>  Entering a new password  </NavLink>
                 {isAuth ? <button onClick={() => dispatch(logout)}>Log out</button> :
                     <NavLink to={'/login'}>Login</NavLink>}
+                <NavLink to={PATH.packs} className={s.inactive} activeClassName={s.active}>  Packs  </NavLink>
 
             </div>
         </div>

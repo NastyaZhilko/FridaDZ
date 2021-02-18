@@ -2,7 +2,8 @@ import axios from "axios";
 import {LoginFormData} from "../store/login-reducer";
 
 const api = axios.create({
-    baseURL: 'https://neko-back.herokuapp.com/2.0',
+   baseURL: 'https://neko-back.herokuapp.com/2.0',
+    //baseURL: 'http://localhost:7542/2.0/',
     withCredentials: true
 })
 
@@ -65,3 +66,60 @@ export const authAPI = {
         return api.delete('auth/me')
     }
 };
+export const cardPacksAPI = {
+    getCardPacks(
+        page:number,
+         pageCount:number,
+        //sortPacks:string
+        // min:number,
+        // max:number
+    ){
+        return api.get<any>('cards/pack',{
+            params:{
+                page,
+                pageCount,
+                sortPacks: '1created'
+                // min,
+                // max,
+            }
+        })
+    }
+}
+
+export const packsAPI = {
+    getPacks(
+        page:number=1,
+        pageCount:number=10,
+    ){
+        return api.get<any>('cards/pack',{
+            params:{
+                page,
+                pageCount,
+
+            }
+        })
+    },
+
+    getCardPacks(
+        page:number=1,
+        pageCount:number=10,
+        sortPacks: string = '0created',
+        min:number=0,
+        max:number=24
+        // min:number,
+        // max:number
+    ){
+        return api.get<any>('/cards/pack',{
+
+            params:{
+                page,
+                pageCount,
+                sortPacks,
+                min,
+                max
+                // min,
+                // max,
+            }
+        })
+    }
+}
