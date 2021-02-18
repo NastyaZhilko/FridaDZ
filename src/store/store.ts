@@ -6,7 +6,6 @@ import {profileReducer} from "./profile-reducer";
 import {registrationReducer} from "./registration-reducer";
 import {newPasswordReducer} from "./new-password-reducer";
 import thunk from "redux-thunk"
-import {packsReducer} from "./packs-reducer";
 import cardsReducer from "./cards-reducer";
 
 const reducers = combineReducers({
@@ -16,8 +15,7 @@ const reducers = combineReducers({
     profile:profileReducer,
     registration:registrationReducer,
     newPassword:newPasswordReducer,
-    packs:packsReducer,
-    cards:cardsReducer
+    cards: cardsReducer
 });
 
 const store = createStore(reducers, applyMiddleware(thunk));
@@ -28,3 +26,4 @@ export type AppStoreType = ReturnType<typeof reducers>
 
 // @ts-ignore
 window.store = store;
+console.log(store.getState())

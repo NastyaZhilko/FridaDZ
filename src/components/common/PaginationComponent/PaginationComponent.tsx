@@ -3,7 +3,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react'
 import s from './PaginationComponent.module.css'
 //import {cardPacksAPI} from "../../../api/api";
 import {useDispatch, useSelector} from "react-redux";
-import {packsTC} from "../../../store/cards-reducer";
+import {packsTC} from "../../../store/packs-reducer";
 
 type PaginationComponentType={
 
@@ -17,17 +17,12 @@ export function PaginationComponent({options}:PaginationComponentType) {
     const sortPacks = useSelector<any, any>(state => state.cards.sortPacks)
     const min = useSelector<any, any>(state => state.cards.minCardsCount)
     const max = useSelector<any, any>(state => state.cards.maxCardsCount)
+    const inputValueSearch = useSelector<any, any>(state => state.cards.inputValueSearch)
     const dispatch = useDispatch()
     const page = useSelector<any,any>((state=>state.cards.page))
 
-    // const [packs, setPacks] = useState(0)
-   //const [page, setPage] = useState(1)
     const [value, setValue] = useState(initValueOption)
-    // useEffect(()=>{
-    //     cardPacksAPI.getCardPacks().then((data)=>{
-    //         setPacks(data.data.cardPacksTotalCount)
-    //         console.log(data)})
-    // }, [page, value])
+
 
 
 
@@ -35,9 +30,7 @@ export function PaginationComponent({options}:PaginationComponentType) {
     const pageCount = Math.ceil(packs/value)
 
     function pageChange(e:any){
-        //setPage(e.selected+1)
-        debugger
-        dispatch(packsTC(e.selected+1, pageCount, sortPacks, min, max))
+        dispatch(packsTC(e.selected+1, value, sortPacks, min, max,inputValueSearch))
 
     }
     const paginationStyle={
@@ -49,12 +42,12 @@ export function PaginationComponent({options}:PaginationComponentType) {
         console.log(e.currentTarget.value)
         setValue(Number(e.currentTarget.value))
 
-        dispatch(packsTC(page, Number(e.currentTarget.value),sortPacks, min, max ))
+        dispatch(packsTC(page, Number(e.currentTarget.value),sortPacks, min, max, inputValueSearch))
     }
 
     return (
         <div style={paginationStyle}>
-            <select onChange={changeSelect} value={pageCount}>
+            <select onChange={changeSelect} value={value}>
                 {options.map((option, index)=>{
                    return <option key={index} value={option}>{option}</option>
             })}

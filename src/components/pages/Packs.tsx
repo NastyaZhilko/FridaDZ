@@ -1,26 +1,25 @@
-import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-//import {cardsTC} from "../../store/cards-reducer";
+import React from 'react';
+import {useSelector} from "react-redux";
 import {PaginationComponent} from "../common/PaginationComponent/PaginationComponent";
 import {SearchComponent} from "../common/SearchComponent/SearchComponent";
 import {SortByDate} from "../common/SortByDate/SortByDate";
 import {SliderAnt} from "../common/PaginationComponent/RangeAnt/RangeAnt";
+import { Cards } from './Cards';
 
 function Packs(){
-    //const initValueOption = 10
     const options = [10, 20, 30, 40, 50]
-    const cards = useSelector<any, any>((state)=>state.cards.newCards)
-
-
+    const packs = useSelector<any, any>((state)=>state.cards.packs)
 
     return(
         <div>
             <SliderAnt/>
             <SortByDate/>
-            <SearchComponent cards={cards}/>
-            {cards.map((card:any, index:number)=>{
-
-                return <div key={index}>{`${card.name} ${card.cardsCount}`}</div>
+            <SearchComponent/>
+            {packs.map((pack:any, index:number)=>{
+                return <div style={{display:'flex', justifyContent:'center'}}>
+                <div key={index}>{`${pack.name} ---- ${pack.cardsCount}----`}</div>
+                <Cards packId={pack._id}/>
+                </div>
             })}
             <PaginationComponent  options={options}/>
 
