@@ -1,5 +1,4 @@
 import React from "react";
-import s from './Routes.module.css'
 import {Switch, Route, Redirect} from "react-router-dom";
 import Error404 from "../pages/404";
 import Login from "../pages/login";
@@ -8,6 +7,7 @@ import Profile from "../pages/profile";
 import Registration from "../pages/registration";
 import NewPassword from "../pages/new-password";
 import Packs from "../pages/Packs";
+import {PackCards} from "../pages/PackCards";
 
 export const PATH = {
     login: '/login',
@@ -31,7 +31,7 @@ function Routes() {
                 <Route path={'/registration'} exact render={() => <Registration/>}/>
                 <Route path={'/newPassword/:resetPasswordToken'} exact render={() => <NewPassword/>}/>
                 <Route path={'/packs'} exact render={() => <Packs/>}/>
-
+                <Route path={'/packs/:packId'} exact render={() => <PackCards/>}/>
                 <Route render={() => <Error404/>}/>
                 //у этого роута нет пути, он отрисуется если пользователь захочет попасть на несуществующую страницу
 

@@ -66,44 +66,8 @@ export const authAPI = {
         return api.delete('auth/me')
     }
 };
-// export const cardPacksAPI = {
-//     getCardPacks(
-//         page:number,
-//          pageCount:number,
-//         //sortPacks:string
-//         // min:number,
-//         // max:number
-//     ){
-//         return api.get<any>('cards/pack',{
-//             params:{
-//                 page,
-//                 pageCount,
-//                 sortPacks: '1created'
-//                 // min,
-//                 // max,
-//             }
-//         })
-//     }
-// }
 
 export const packsAPI = {
-    getPacks(
-        page:number=1,
-        pageCount:number=10,
-        sortPacks: string = '0created',
-        min:number=0,
-        max:number=24
-    ){
-        return api.get<any>('cards/pack',{
-            params:{
-                page,
-                pageCount,
-                sortPacks,
-                min,
-                max
-            }
-        })
-    },
 
     getCardPacks(
         page:number=1,
@@ -111,8 +75,6 @@ export const packsAPI = {
         sortPacks: string = '0created',
         min:number=0,
         max:number=24
-        // min:number,
-        // max:number
     ){
         return api.get<any>('/cards/pack',{
 
@@ -122,9 +84,20 @@ export const packsAPI = {
                 sortPacks,
                 min,
                 max
-                // min,
-                // max,
             }
         })
     }
 }
+
+export const cardsAPI = {
+    getCards(packId: string){
+        return api.get('/cards/card/', {
+            params:{
+                cardsPack_id: packId,
+                pageCount:24
+            }
+    })
+    }
+}
+
+
