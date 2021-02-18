@@ -1,9 +1,9 @@
 import React from "react";
-
+import preloader from '../common/preloader.svg'
 function Loading(){
     return(
         <div>
-            Loading...
+            <img src={preloader} />
         </div>
     )
 }

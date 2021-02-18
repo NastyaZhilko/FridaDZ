@@ -76,23 +76,18 @@ function Registration() {
     return (
         <div className={style.container}>
             <form onSubmit={submit} style={{marginTop: '50px'}}>
-                <div>
-                    <h3>Registration</h3>
-                    <div><SuperInputText name={'email'} placeholder={'Email'} onChange={changEmail}
-                                         value={emailValue} onBlur={blurEmail}/>
-                        <label>Enter your email</label></div>
-                    <div style={{height: '50px'}}>{emailError &&
-                    <div style={{color: "red"}}>{'not valid email'}</div>}</div>
-                    <div><SuperPassword type={'password'} name={'password'} placeholder={'New password'} onChange={changePassword}
-                                        value={passwordValue} onBlur={blurPassword}/>
-                        <label>Enter new password</label></div>
-                    <div style={{height: '50px'}}>{passwordError &&
-                    <div style={{color: "red"}}>{'Password must be more than 7 characters...'}</div>}</div>
-                    <div><SuperButton disabled={passwordLength || emailLength}
-                                      style={(passwordLength || emailLength) ? undefined : {background: "green"}}>registration</SuperButton>
-                    </div>
-                    {isError && <div style={{color: "red"}}>{titleError}</div>}
+                <div><label>Email<SuperInputText name={'email'} onChange={changEmail} value={emailValue}
+                                                 onBlur={blurEmail}/></label></div>
+                <div style={{height: '50px'}}>{emailError &&
+                <div style={{color: "red"}}>{'not valid email'}</div>}</div>
+                <div><label>Password<SuperPassword type={'password'} name={'password'} onChange={changePassword}
+                                                   value={passwordValue} onBlur={blurPassword}/></label></div>
+                <div style={{height: '50px'}}>{passwordError &&
+                <div style={{color: "red"}}>{'Password must be more than 7 characters...'}</div>}</div>
+                <div><SuperButton disabled={passwordLength || emailLength}
+                                  style={(passwordLength || emailLength) ? undefined : {background: "green"}}>registration</SuperButton>
                 </div>
+                {isError && <div style={{color: "red"}}>{titleError}</div>}
             </form>
         </div>
     )

@@ -49,7 +49,7 @@ const initState: UserAuthData = {
     isFetching: false
 };
 
-export const loginReducer = (state = initState, action: ActionsType): any => {
+export const loginReducer = (state = initState, action: ActionsType): UserAuthData => {
     switch (action.type) {
         case "SET-USER-DATA": {
             return {...state, ...action.payload}
