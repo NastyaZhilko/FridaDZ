@@ -32,7 +32,7 @@ function packsReducer(state=initState, action:any){
         }
         case 'CARDS-COUNT':{
 
-            return {...state,packs: action.packs, minCardsCount: action.min, maxCardsCount: action.max}
+            return {...state,packs: action.packs, minCardsCount: action.min, maxCardsCount: action.max, packsTotalCount: action.packsTotalCount}
         }
         default:
             return initState
@@ -97,7 +97,8 @@ export const changeSliderTC = (page:any, pageCount:any, sortPacks:any, min:any,m
 
     packsAPI.getCardPacks(page, pageCount, sortPacks, min,max ).then(data=>{
         const packs = data.data.cardPacks
-        dispatch({type:'CARDS-COUNT',packs,  min, max})
+        const packsTotalCount= data.data.cardPacksTotalCount
+        dispatch({type:'CARDS-COUNT',packs,  min, max, packsTotalCount})
 
 
     })
