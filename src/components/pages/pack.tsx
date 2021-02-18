@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {deletePackTC, getCardPacksTC} from "../../store/packs-reducer";
 import {AppStoreType} from "../../store/store";
 import style from "./cards.module.css";
 import {CardPacksType} from "../../api/api";
@@ -19,7 +18,7 @@ export const Pack = (props:PropsType) => {
     const packs = useSelector<AppStoreType, Array<CardPacksType>>(state => state.packs.cardPacks)
     const dispatch = useDispatch()
 
-    const deletePack = () => dispatch(deletePackTC(props.pack_id))
+    //const deletePack = () => dispatch(deletePackTC(props.pack_id))
 
     return (
         <div className={style.container}>
@@ -30,7 +29,7 @@ export const Pack = (props:PropsType) => {
                     <div className={style.cardsCount}>{props.cardsCount}</div>
                     <div className={style.updated}>{props.updated}</div>
                     <div>
-                        <button name={"del"} onClick={deletePack}>Delete</button>
+                        <button name={"del"} >Delete</button>
                     </div>
                     <div>
                         <button name={"update"}>Update</button>

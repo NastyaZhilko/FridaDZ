@@ -3,13 +3,13 @@ import {useDispatch, useSelector} from "react-redux";
 import style from "./cards.module.css";
 import {AppStoreType} from "../../store/store";
 import {CardType} from "../../api/api";
-import {getCardsTC} from "../../store/cards-reducer";
+
 type PropsType={
     card: CardType
 }
 export const Card = (props:PropsType) => {
 
-    const cards = useSelector<AppStoreType, CardType[]>(state => state.cards.cards)
+   // const cards = useSelector<AppStoreType, CardType[]>(state => state.cards.cards)
     const dispatch = useDispatch()
     /*    useEffect(() => {
             dispatch(getCardPacksTC())

@@ -1,47 +1,4 @@
-<<<<<<< HEAD
-import {cardsApi, CardType} from "../api/api";
-
-
-
-type ActionsType = ReturnType<typeof setCardsAC>
-
-type InitialStateType = typeof initialState
-
-const initialState = {
-    cards: [] as CardType[]
-}
-
-
-export const cardsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
-    switch (action.type) {
-        case 'SET-CARDS':
-            return {...state, cards: action.cards}
-
-        default:
-            return state
-    }
-}
-
-export const setCardsAC = (cards: Array<CardType>, packId:string) => ({type: 'SET-CARDS', cards, packId} as const)
-
-
-export const getCardsTC = (packId:string) =>
-    async (dispatch: any) => {
-        try {
-            const response = await cardsApi.getCards(packId)
-            const cards = response.data.cards
-            dispatch(setCardsAC(cards, packId))
-        } catch (error) {
-        }
-    }
-
-
-
-
-
-
-=======
-import { packsAPI} from "../api/api";
+import { cardsPacksAPI} from "../api/api";
 
 const initState = {
     newCards:[{}],
@@ -95,16 +52,16 @@ export default cardsReducer
 // }
 
 export const getPacksTC = () => (dispatch:any) => {
-  // const initPage = 1
-  // const initPageCount = 10
+    // const initPage = 1
+    // const initPageCount = 10
 
-    packsAPI.getPacks().then((data)=>{
+    cardsPacksAPI.getPacks().then((data)=>{
         const packsTotalCount= data.data.cardPacksTotalCount
-         const newCards = data.data.cardPacks
-         const page = data.data.page
-         const pageCount = data.data.pageCount
-         // const rangeMin = data.data.minCardsCount
-         // const rangeMax = data.data.maxCardsCount
+        const newCards = data.data.cardPacks
+        const page = data.data.page
+        const pageCount = data.data.pageCount
+        // const rangeMin = data.data.minCardsCount
+        // const rangeMax = data.data.maxCardsCount
         dispatch({type:'GET-PACKS', newCards, packsTotalCount, page, pageCount })//rangeMin, rangeMax
         //dispatch({type:'GET-PACKS', newCards, packsTotalCount})
     })
@@ -112,7 +69,7 @@ export const getPacksTC = () => (dispatch:any) => {
 
 export const packsTC = (page: number, pageCount:number, sortPacks:any, min:any, max:any) => (dispatch:any) => {
 
-    packsAPI.getCardPacks(page, pageCount, sortPacks, min,  max).then((cards)=>{
+    cardsPacksAPI.getPacks(page, pageCount, sortPacks, min,  max).then((cards)=>{
         const packsTotalCount= cards.data.cardPacksTotalCount
         const newCards = cards.data.cardPacks
 
@@ -121,7 +78,7 @@ export const packsTC = (page: number, pageCount:number, sortPacks:any, min:any, 
 }
 export const changeInputTC = (e:any, page:any, pageCount:any, sortPacks:any, min:any, max:any) => (dispatch:any) => {
 
-    packsAPI.getCardPacks(page, pageCount, sortPacks, min, max).then((data) => {
+    cardsPacksAPI.getPacks(page, pageCount, sortPacks, min, max).then((data) => {
 
         const cards = data.data.cardPacks
         const page = data.data.page
@@ -137,14 +94,14 @@ export const changeInputTC = (e:any, page:any, pageCount:any, sortPacks:any, min
     })
 }
 export const sortByDateUpTC = (page:any, pageCount:any, sortPacksByDateUp:string, min:any, max:any) => (dispatch:any) => {
-    packsAPI.getCardPacks(page, pageCount, sortPacksByDateUp, min, max).then((data)=>{
+    cardsPacksAPI.getPacks(page, pageCount, sortPacksByDateUp, min, max).then((data)=>{
         const newCards = data.data.cardPacks
         dispatch({type: 'SORT-PACKS-UP', newCards, sortPacksByDateUp})
     })
 }
 
 export const sortByDateUpDown = (page:any, pageCount:any, sortPacksByDateDown:string, min:any, max:any) => (dispatch:any) => {
-    packsAPI.getCardPacks(page, pageCount, sortPacksByDateDown, min, max).then((data)=>{
+    cardsPacksAPI.getPacks(page, pageCount, sortPacksByDateDown, min, max).then((data)=>{
         const newCards = data.data.cardPacks
         dispatch({type: 'SORT-PACKS-DOWN', newCards, sortPacksByDateDown})
     })
@@ -152,7 +109,7 @@ export const sortByDateUpDown = (page:any, pageCount:any, sortPacksByDateDown:st
 
 export const changeSliderTC = (page:any, pageCount:any, sortPacks:any, min:any,max:any) => (dispatch:any) => {
 
-    packsAPI.getCardPacks(page, pageCount, sortPacks, min,max ).then(data=>{
+    cardsPacksAPI.getPacks(page, pageCount, sortPacks, min,max ).then(data=>{
 
         const minCardsCount = data.data.minCardsCount
         const maxCardsCount = data.data.maxCardsCount
@@ -162,4 +119,3 @@ export const changeSliderTC = (page:any, pageCount:any, sortPacks:any, min:any,m
 
     })
 }
->>>>>>> origin/maxim2

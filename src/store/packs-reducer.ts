@@ -1,7 +1,5 @@
 import {CardPacksType, cardsPacksAPI, CardType} from "../api/api";
 import {AppStoreType} from "./store";
-import {loadingAC} from "./registration-reducer";
-import {Dispatch} from "react";
 
 export type IsLoadingValuesType = 'loading' | 'idle'
 
@@ -17,7 +15,7 @@ const initialState = {
     cardPacksTotalCount: 5,//количество колод
     page: 1,//выбранная страница
     pageCount: 4,
-
+    sortPacks: '0created'
 
 };
 
@@ -42,6 +40,21 @@ export const packsReducer = (state = initialState, action: ActionsType): Initial
             return {...state, page: action.currentPage}
         case "SET-TOTAL-PACKS":
             return {...state, pageCount: action.totalPacks}
+        case 'SORT-PACKS-UP': {
+            return {...state, cardPacks: action.cardPacks, sortPacks: action.sortPacksByDateUp}
+        }
+        case 'SORT-PACKS-DOWN': {
+            return {...state, cardPacks: action.cardPacks, sortPacks: action.sortPacksByDateDown}
+        }
+        case 'CARDS-COUNT': {
+
+            return {
+                ...state,
+                cardPacks: action.cardPacks,
+                minCardsCount: action.minCardsCount,
+                maxCardsCount: action.maxCardsCount
+            }
+        }
         default:
             return state
     }
@@ -67,7 +80,46 @@ const setTotalPacksAC = (totalPacks: number) => {
     return {type: "SET-TOTAL-PACKS", totalPacks} as const
 }
 
-export const getCardPacksTC = () =>
+const sortPuckUpAC = (cardPacks: Array<CardPacksType>, sortPacksByDateUp: string) => {
+    return {type: 'SORT-PACKS-UP', cardPacks, sortPacksByDateUp} as const
+}
+
+const sortPuckDownAC = (cardPacks: Array<CardPacksType>, sortPacksByDateDown: string) => {
+    return {type: 'SORT-PACKS-DOWN', cardPacks, sortPacksByDateDown} as const
+}
+const cardsCountAC = (cardPacks: Array<CardPacksType>, minCardsCount: number, maxCardsCount: number) => {
+    return {type: 'CARDS-COUNT', cardPacks, minCardsCount, maxCardsCount} as const
+}
+export const sortByDateUpTC = (page: any, pageCount: any, sortPacksByDateUp: string, min: any, max: any) => (dispatch: any) => {
+    cardsPacksAPI.getPacks(page, pageCount, sortPacksByDateUp, min, max).then((data) => {
+        const newCards = data.data.cardPacks
+        dispatch({type: 'SORT-PACKS-UP', newCards, sortPacksByDateUp})
+    })
+}
+
+export const sortByDateUpDown = (page: any, pageCount: any, sortPacksByDateDown: string, min: any, max: any) => (dispatch: any) => {
+    cardsPacksAPI.getPacks(page, pageCount, sortPacksByDateDown, min, max).then((data) => {
+        const newCards = data.data.cardPacks
+        dispatch({type: 'SORT-PACKS-DOWN', newCards, sortPacksByDateDown})
+    })
+}
+
+export const changeSliderTC = (page: any, pageCount: any, sortPacks: any, min: any, max: any) => (dispatch: any, getState: () => AppStoreType) => {
+    const minCardsCount = getState().packs.minCardsCount
+    const maxCardsCount = getState().packs.maxCardsCount
+    const newCards = getState().packs.cardPacks
+    const page = getState().packs.page
+    const pageCount = getState().packs.pageCount
+    const sortPacks = getState().packs.sortPacks
+
+    cardsPacksAPI.getPacks(page, pageCount, sortPacks, minCardsCount, maxCardsCount).then(res => {
+        dispatch(cardsCountAC(newCards, minCardsCount, maxCardsCount))
+
+
+    })
+}
+
+/*export const getCardPacksTC = () =>
     (dispatch: any, getState: () => AppStoreType) => {
         dispatch(setLoadingAC('loading'))
 
@@ -76,12 +128,12 @@ export const getCardPacksTC = () =>
         const maxCardsCount = getState().packs.maxCardsCount
         const cardPacksTotalCount = getState().packs.cardPacksTotalCount
         const page = getState().packs.page
-
-        cardsPacksAPI.getPacks(searchName, minCardsCount, maxCardsCount, cardPacksTotalCount, page)
-            .then(res=>{
-                dispatch(setCardPacksAC(res.data.cardPacks))
-                dispatch(setLoadingAC('idle'))
-                dispatch(setTotalPacksAC(res.data.cardPacksTotalCount))
+        const sortPacks = getState().packs.sortPacks
+        cardsPacksAPI.getPacks(searchName, minCardsCount, maxCardsCount, cardPacksTotalCount, page, sortPacks)
+            .then(res => {
+                    dispatch(setCardPacksAC(res.data.cardPacks))
+                    dispatch(setLoadingAC('idle'))
+                    dispatch(setTotalPacksAC(res.data.cardPacksTotalCount))
                 }
             )
             .catch(err => {
@@ -92,8 +144,8 @@ export const getCardPacksTC = () =>
                 }
                 dispatch(setLoadingAC("idle"))
             })
-    }
-export const deletePackTC = (id: string) => (dispatch: any) => {
+    }*/
+/*export const deletePackTC = (id: string) => (dispatch: any) => {
     dispatch(setLoadingAC("loading"))
     cardsPacksAPI.deletePack(id)
         .then(res => {
@@ -108,9 +160,9 @@ export const deletePackTC = (id: string) => (dispatch: any) => {
             }
             dispatch(setLoadingAC("idle"))
         })
-}
+}*/
 
-export const updatePackTC = (id: string, name: string) => (dispatch: any) => {
+/*export const updatePackTC = (id: string, name: string) => (dispatch: any) => {
     dispatch(setLoadingAC("loading"))
     cardsPacksAPI.updatePack(id, name)
         .then(res => {
@@ -125,7 +177,7 @@ export const updatePackTC = (id: string, name: string) => (dispatch: any) => {
             }
             dispatch(setLoadingAC("idle"))
         })
-}
+}*/
 type ActionsType =
     | ReturnType<typeof setCardPacksAC>
     | ReturnType<typeof setErrorAC>
@@ -135,4 +187,7 @@ type ActionsType =
     | ReturnType<typeof setPacksOnPageAC>
     | ReturnType<typeof setCurrentPageAC>
     | ReturnType<typeof setTotalPacksAC>
+    | ReturnType<typeof sortPuckUpAC>
+    | ReturnType<typeof sortPuckDownAC>
+    | ReturnType<typeof cardsCountAC>
 

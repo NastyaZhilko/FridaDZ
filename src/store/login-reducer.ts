@@ -26,6 +26,7 @@ type UserAuthData = {
     data: UserDataType
     isAuth: boolean
     isFetching: boolean
+    error: string | null
 }
 
 /*email: "nya-admin@nya.nya",
@@ -43,10 +44,12 @@ const initState: UserAuthData = {
         updated: '',
         isAdmin: false,
         verified: false,
-        rememberMe: false
+        rememberMe: false,
+
     },
     isAuth: false,
-    isFetching: false
+    isFetching: false,
+  error:''
 };
 
 export const loginReducer = (state = initState, action: ActionsType): UserAuthData => {

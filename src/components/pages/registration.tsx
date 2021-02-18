@@ -4,10 +4,10 @@ import SuperButton from "../common/SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
 import {registrationThunkCreator} from "../../store/registration-reducer";
 import {Redirect} from "react-router-dom";
-import SuperPassword from "../common/SuperButton/SuperPassword/SuperPassword";
 import Loading from "./Loading";
 import {AppStoreType} from "../../store/store";
 import style from "./new-password.module.css";
+import SuperPassword from "../common/SuperPassword/SuperPassword";
 
 function Registration() {
     const dispatch = useDispatch()
