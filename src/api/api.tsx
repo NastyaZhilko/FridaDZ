@@ -68,7 +68,7 @@ export const authAPI = {
 };
 
 //типизация и апи для колод
-export type CardsPackDataType = {
+/*export type CardsPackDataType = {
     name: string
 }
 export type CardPacksType = {
@@ -106,7 +106,7 @@ export type CreateCardRequestType = {
     cardsPack_id: string
     question?: string
     answer?: string
-}
+}*/
 
 
 
@@ -146,7 +146,7 @@ export const packsAPI = {
 
 //типизация и апи для карточек
 
-export type CardType = {
+/*export type CardType = {
     _id: string
     cardsPack_id: string
     user_id: string
@@ -163,11 +163,11 @@ export type CardType = {
     updated: string
     __v: number
 
-}
+}*/
 
 
 
-export type CardsResponseType={
+/*export type CardsResponseType={
     cards: CardType[]
     cardsTotalCount: number
     maxGrade: number
@@ -176,7 +176,7 @@ export type CardsResponseType={
     pageCount: number
     packUserId: string
 
-}
+}*/
 export const cardsAPI = {
     getCards(packId: string) {
         return api.get('/cards/card/', {
