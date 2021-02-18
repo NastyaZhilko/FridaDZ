@@ -17,6 +17,7 @@ export function PaginationComponent({options}:PaginationComponentType) {
     const sortPacks = useSelector<any, any>(state => state.cards.sortPacks)
     const min = useSelector<any, any>(state => state.cards.minCardsCount)
     const max = useSelector<any, any>(state => state.cards.maxCardsCount)
+    const inputValueSearch = useSelector<any, any>(state => state.cards.inputValueSearch)
     const dispatch = useDispatch()
     const page = useSelector<any,any>((state=>state.cards.page))
 
@@ -29,7 +30,7 @@ export function PaginationComponent({options}:PaginationComponentType) {
     const pageCount = Math.ceil(packs/value)
 
     function pageChange(e:any){
-        dispatch(packsTC(e.selected+1, value, sortPacks, min, max))
+        dispatch(packsTC(e.selected+1, value, sortPacks, min, max,inputValueSearch))
 
     }
     const paginationStyle={
@@ -41,7 +42,7 @@ export function PaginationComponent({options}:PaginationComponentType) {
         console.log(e.currentTarget.value)
         setValue(Number(e.currentTarget.value))
 
-        dispatch(packsTC(page, Number(e.currentTarget.value),sortPacks, min, max ))
+        dispatch(packsTC(page, Number(e.currentTarget.value),sortPacks, min, max, inputValueSearch))
     }
 
     return (
