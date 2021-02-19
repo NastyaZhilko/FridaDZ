@@ -4,10 +4,6 @@ import { Slider } from 'antd';
 import {useDispatch, useSelector} from "react-redux";
 import {changeSliderTC} from "../../../../store/packs-reducer";
 
-type PropsType = {
-    range: Array<number>
-}
-
 
 export function SliderAnt( ){
     const ref = useRef(null)
@@ -16,6 +12,7 @@ export function SliderAnt( ){
     const sortPacks = useSelector<any, any>(state => state.cards.sortPacks)
     const page = useSelector<any,any>((state=>state.cards.page))
     const pageCount = useSelector<any,any>(state=>state.cards.pageCount)
+    const inputValueSearch = useSelector<any, any>(state => state.cards.inputValueSearch)
     const dispatch = useDispatch()
 
 
@@ -26,7 +23,7 @@ export function SliderAnt( ){
     function click(){
      //@ts-ignore
         const value = ref.current.props.value
-        dispatch(changeSliderTC(page, pageCount,sortPacks, value[0],value[1]))
+        dispatch(changeSliderTC(page, pageCount,sortPacks, value[0],value[1], inputValueSearch))
 
 
     }

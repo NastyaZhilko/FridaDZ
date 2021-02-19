@@ -18,7 +18,6 @@ function packsReducer(state=initState, action:any){
         case 'GET-PACKS':{
 
             return  {...state, packs: action.filteredPacks, packsTotalCount: action.packsTotalCount, pageCount: action.pageCount, page: action.page, rangeMin: action.rangeMin, rangeMax: action.rangeMax}
-            //return  {...state, newCards: action.newCards, packsTotalCount: action.packsTotalCount}
         }
         case 'SEARCHED-PACKS':{
 
@@ -33,7 +32,7 @@ function packsReducer(state=initState, action:any){
         }
         case 'CARDS-COUNT':{
 
-            return {...state,packs: action.packs, minCardsCount: action.min, maxCardsCount: action.max, packsTotalCount: action.packsTotalCount}
+            return {...state,packs: action.filteredPacks, minCardsCount: action.min, maxCardsCount: action.max, packsTotalCount: action.packsTotalCount}
         }
         default:
             return initState
@@ -106,12 +105,16 @@ export const sortByDateDown = (page:any, pageCount:any, sortPacksByDateDown:stri
     })
 }
 
-export const changeSliderTC = (page:any, pageCount:any, sortPacks:any, min:any,max:any) => (dispatch:any) => {
+export const changeSliderTC = (page:any, pageCount:any, sortPacks:any, min:any,max:any, inputValueSearch:any) => (dispatch:any) => {
 
     packsAPI.getCardPacks(page, pageCount, sortPacks, min,max ).then(data=>{
         const packs = data.data.cardPacks
         const packsTotalCount= data.data.cardPacksTotalCount
-        dispatch({type:'CARDS-COUNT',packs,  min, max, packsTotalCount})
+        const filteredPacks = packs.filter((pack: any) => {
+            return pack.name.toLowerCase().indexOf(inputValueSearch) !== -1
+
+        })
+        dispatch({type:'CARDS-COUNT',filteredPacks,  min, max, packsTotalCount})
 
 
     })
