@@ -8,16 +8,20 @@ function Profile() {
 
     const isAuth = useSelector<AppStoreType, boolean>(state => state.login.isAuth)
     const userData = useSelector<AppStoreType, UserDataType>(state => state.login.data)
-
+    const cardsCount = useSelector<AppStoreType, number | null>(state => state.profile.publicCardPacksCount)
 
 
     return (
         <div>
-            <h2>Profile</h2>
+            <h3>Profile</h3>
 
             {isAuth
                 ? <div>
-                    {userData.name}
+                   <div> Name: {userData.name}</div>
+                   <div> Count of cards: {cardsCount}</div>
+
+
+
             </div>
                 : <Redirect to={'login'}/>}
 

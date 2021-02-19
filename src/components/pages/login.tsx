@@ -17,6 +17,7 @@ export function Login() {
     }
 
     const submitLoginData = (e: FormEvent<HTMLFormElement>) => {
+
         e.preventDefault();
         const email = e.currentTarget.email.value
         const password = e.currentTarget.password.value

@@ -1,13 +1,13 @@
-import React, {FormEvent, useState} from "react";
+import React, {useState} from "react";
 import SuperInputText from "../common/SuperInput/SuperInput";
 import SuperButton from "../common/SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
 import {registrationThunkCreator} from "../../store/registration-reducer";
 import {Redirect} from "react-router-dom";
-import SuperPassword from "../common/SuperPassword/SuperPassword";
 import Loading from "./Loading";
 import {AppStoreType} from "../../store/store";
 import style from "./new-password.module.css";
+import SuperPassword from "../common/SuperPassword/SuperPassword";
 
 function Registration() {
     const dispatch = useDispatch()
@@ -22,11 +22,11 @@ function Registration() {
     const [emailValue, setEmailValue] = useState('')
     const [passwordValue, setPasswordValue] = useState('')
 
-    function submit(e: FormEvent<HTMLFormElement>) {
+    function submit(e: any) { // e:React.FormEvent<HTMLFormElement>
         e.preventDefault();
         const obj = {
-            email: e.currentTarget.email.value,
-            password: e.currentTarget.password.value
+            email: e.target.email.value,
+            password: e.target.password.value
         }
         dispatch(registrationThunkCreator(obj))
     }
@@ -44,7 +44,7 @@ function Registration() {
 
     function changEmail(e: any) {
         setEmailValue(e.currentTarget.value)
-        if (e.currentTarget.value.length >= 7 && (/^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i.test(e.currentTarget.value))) {
+        if (e.currentTarget.value.length >= 7 && (e.currentTarget.value.indexOf("@") !== -1)) {
             setEmailLength(false)
             setEmailError(false)
         } else {
@@ -59,11 +59,16 @@ function Registration() {
     }
 
     function blurEmail(e: any) {
-        if (e.currentTarget.value.length < 7 || !(/^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i.test(e.currentTarget.value))) {
+        if (e.currentTarget.value.length < 7 || (e.currentTarget.value.indexOf("@") == -1)) {
             setEmailError(true)
         }
     }
 
+    if (isLoading) {
+        return (
+            <Loading/>
+        )
+    }
     if (isRegistration) {
         return <Redirect to={'/login'}/>
     }
@@ -71,7 +76,6 @@ function Registration() {
     return (
         <div className={style.container}>
             <form onSubmit={submit} style={{marginTop: '50px'}}>
-                <div style={{height:"40px"}}>{isLoading && <Loading/>}</div>
                 <div><label>Email<SuperInputText name={'email'} onChange={changEmail} value={emailValue}
                                                  onBlur={blurEmail}/></label></div>
                 <div style={{height: '50px'}}>{emailError &&

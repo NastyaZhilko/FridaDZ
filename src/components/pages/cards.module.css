@@ -1,0 +1,27 @@
+.container{
+    margin: 0px 10px;
+}
+.table {
+    border: 1px solid red;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    height: 20px
+
+}
+.tableString {
+    display: flex;
+    align-items: center;
+}
+.tableString>div{
+    height: 50px;
+    width: 150px;
+    border-bottom: 2px solid #404040;
+}
+.name{
+    width: 250px;
+}
+.cardsCount{
+    width: 150px;
+}
+

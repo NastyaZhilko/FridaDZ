@@ -1,7 +1,6 @@
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {AppStoreType} from "./store";
 import {authAPI} from "../api/api";
-import {log} from "util";
 
 export type LoginFormData = {
     email: string
@@ -15,24 +14,19 @@ export type UserDataType = {
     name: string
     avatar?: string
     publicCardPacksCount: number
-
     created: string
     updated: string
     isAdmin: boolean
     verified: boolean
     rememberMe: boolean
-
     error?: string
-
-    /*token: string
-    tokenDeathTime: number
-    __v: number*/
-
 }
 
 type UserAuthData = {
     data: UserDataType
     isAuth: boolean
+    isFetching: boolean
+    error: string | null
 }
 
 /*email: "nya-admin@nya.nya",
@@ -46,14 +40,16 @@ const initState: UserAuthData = {
         name: "",
         avatar: "",
         publicCardPacksCount: 0,
-
         created: '',
         updated: '',
         isAdmin: false,
         verified: false,
-        rememberMe: false
+        rememberMe: false,
+
     },
-    isAuth: false
+    isAuth: false,
+    isFetching: false,
+  error:''
 };
 
 export const loginReducer = (state = initState, action: ActionsType): UserAuthData => {
@@ -61,74 +57,66 @@ export const loginReducer = (state = initState, action: ActionsType): UserAuthDa
         case "SET-USER-DATA": {
             return {...state, ...action.payload}
         }
+        case "ERROR": {
+
+            return {...state, error: action.titleError}
+        }
+        case "TOGGLE-IS-FETCHING": {
+            return {...state, isFetching: action.isFetching}
+        }
         default:
             return state;
     }
 };
 
-const setAuthUserDataAC = ({data, isAuth}: UserAuthData) => {
+const setAuthUserDataAC = (data: UserDataType, isAuth: boolean) => {
     return {
         type: 'SET-USER-DATA',
         payload: {data, isAuth}
     } as const
 }
-
-
-type ActionsType = ReturnType<typeof setAuthUserDataAC>
-
-type getAuthUserDataThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsType>
-type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionsType>
-
-type DataType = {
-    data: {
-        error: string
-        in: string
-        isEmailValid?: boolean
-        isPassValid?: boolean
-        passwordRegExp?: string
-    }
-}
-
-type ResponseErrorType = {
-    response: DataType
-}
-
 const errorAC = (titleError: string | null) => ({type: 'ERROR', titleError} as const)
 
-const getAuthUserData = (): getAuthUserDataThunkType => {
+const toggleIsFetching = (isFetching: boolean) => ({
+    type: 'TOGGLE-IS-FETCHING',
+    isFetching
+} as const)
 
-    return (dispatch: ThunkDispatch<AppStoreType, unknown, ActionsType>) => {
-        debugger
-        return authAPI.authMe().then(response => {
-                let data: UserDataType = response.data
-                let isAuth = true
-                debugger
-                dispatch(setAuthUserDataAC({data, isAuth}))
-            }
-        )
-    }
-}
+type ActionsType =
+    ReturnType<typeof setAuthUserDataAC>
+    | ReturnType<typeof errorAC>
+    | ReturnType<typeof toggleIsFetching>
+
+type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionsType>
+
 
 export const loginAC = (data: LoginFormData) => ({type: 'LOGIN', data} as const);
 
 export const login = (data: LoginFormData): ThunkType => {
-    return (dispatch: ThunkDispatch<AppStoreType, unknown, any>) => {
-        authAPI.login(data).then(response =>
-            dispatch(getAuthUserData())
-        )
-            .catch((error: ResponseErrorType) => {
-                dispatch(errorAC(error.response.data.error))
+
+    return (dispatch: ThunkDispatch<AppStoreType, unknown, ActionsType>) => {
+        dispatch(toggleIsFetching(true))
+        authAPI.login(data)
+            .then(response => {
+                let data: UserDataType = response.data
+                let isAuth = true
+                dispatch(setAuthUserDataAC(data, isAuth))
             })
+            .catch((e) => {
+                const error = e.response
+                    ? e.response.data.error
+                    : (e.message + ', more details in the console')
+                console.log('Error: ', {...e})
+                console.log(error)
+                dispatch(errorAC(error))
+            })
+        dispatch(toggleIsFetching(false))
     }
 }
 
 export const logout = (): ThunkType => {
     return (dispatch: ThunkDispatch<AppStoreType, unknown, ActionsType>) => {
-        authAPI.logout().then(response => {
-            if (response.data.resultCode === 0) {
-                let dataLogout = initState
-                dispatch(setAuthUserDataAC(dataLogout))
-            }
-        })
+        authAPI.logout()
+            .then(() => dispatch(setAuthUserDataAC(initState.data, false)))
     }
 }

@@ -46,9 +46,9 @@ export const getPacksTC = () => (dispatch:any) => {
 
     packsAPI.getCardPacks().then((data)=>{
         const packsTotalCount= data.data.cardPacksTotalCount
-         const filteredPacks = data.data.cardPacks
-         const page = data.data.page
-         const pageCount = data.data.pageCount
+        const filteredPacks = data.data.cardPacks
+        const page = data.data.page
+        const pageCount = data.data.pageCount
         dispatch({type:'GET-PACKS', filteredPacks, packsTotalCount, page, pageCount })//rangeMin, rangeMax
     })
 }
