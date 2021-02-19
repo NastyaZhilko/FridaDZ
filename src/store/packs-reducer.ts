@@ -1,5 +1,7 @@
 import { packsAPI} from "../api/api";
-
+import {ThunkAction} from "redux-thunk";
+import {AppStoreType} from "./store";
+type InitStateType = typeof initState
 const initState = {
     packs:[{}],
     packsTotalCount:1,
@@ -10,14 +12,15 @@ const initState = {
     maxCardsCount:10,
     inputValueSearch:''
 }
+type ThunkType = ThunkAction<void, AppStoreType, unknown, any>
 
-function packsReducer(state=initState, action:any){
+function packsReducer(state=initState, action:any):InitStateType {
 
     switch (action.type){
 
         case 'GET-PACKS':{
 
-            return  {...state, packs: action.filteredPacks, packsTotalCount: action.packsTotalCount, pageCount: action.pageCount, page: action.page, rangeMin: action.rangeMin, rangeMax: action.rangeMax}
+            return  {...state, packs: action.filteredPacks, packsTotalCount: action.packsTotalCount, pageCount: action.pageCount, page: action.page, minCardsCount: action.rangeMin, maxCardsCount: action.rangeMax}
             //return  {...state, newCards: action.newCards, packsTotalCount: action.packsTotalCount}
         }
         case 'SEARCHED-PACKS':{
@@ -42,7 +45,7 @@ function packsReducer(state=initState, action:any){
 export default packsReducer
 
 
-export const getPacksTC = () => (dispatch:any) => {
+export const getPacksTC = () : ThunkType=> (dispatch) => {
 
 
     packsAPI.getCardPacks().then((data)=>{
@@ -54,7 +57,7 @@ export const getPacksTC = () => (dispatch:any) => {
     })
 }
 
-export const packsTC = (page: number, pageCount:number, sortPacks:any, min:any, max:any, inputValueSearch:any ) => (dispatch:any) => {
+export const packsTC = (page: number, pageCount:number, sortPacks:any, min:number, max:number, inputValueSearch:any ) : ThunkType=> (dispatch) => {
 
     packsAPI.getCardPacks(page, pageCount, sortPacks, min,  max).then((cards)=>{
         const packsTotalCount= cards.data.cardPacksTotalCount
@@ -67,7 +70,7 @@ export const packsTC = (page: number, pageCount:number, sortPacks:any, min:any, 
         dispatch({type:'GET-PACKS', filteredPacks, packsTotalCount, pageCount:pageCount, page:page})
     })
 }
-export const changeInputTC = (e:any, page:any, pageCount:any, sortPacks:any, min:any, max:any) => (dispatch:any) => {
+export const changeInputTC = (e:any, page:any, pageCount:any, sortPacks:any, min:number, max:number): ThunkType  =>(dispatch) => {
 
     packsAPI.getCardPacks(page, pageCount, sortPacks, min, max).then((data) => {
 
@@ -84,7 +87,7 @@ export const changeInputTC = (e:any, page:any, pageCount:any, sortPacks:any, min
 
     })
 }
-export const sortByDateUpTC = (page:any, pageCount:any, sortPacksByDateUp:string, min:any, max:any, inputValueSearch:any) => (dispatch:any) => {
+export const sortByDateUpTC = (page:any, pageCount:any, sortPacksByDateUp:string, min:number, max:number, inputValueSearch:any): ThunkType => (dispatch) => {
     packsAPI.getCardPacks(page, pageCount, sortPacksByDateUp, min, max).then((data)=>{
         const packs = data.data.cardPacks
         const filteredPacks = packs.filter((pack: any) => {
@@ -95,7 +98,7 @@ export const sortByDateUpTC = (page:any, pageCount:any, sortPacksByDateUp:string
     })
 }
 
-export const sortByDateDown = (page:any, pageCount:any, sortPacksByDateDown:string, min:any, max:any, inputValueSearch:any) => (dispatch:any) => {
+export const sortByDateDown = (page:any, pageCount:any, sortPacksByDateDown:string, min:number, max:number, inputValueSearch:any): ThunkType => (dispatch) => {
     packsAPI.getCardPacks(page, pageCount, sortPacksByDateDown, min, max).then((data)=>{
         const packs = data.data.cardPacks
         const filteredPacks = packs.filter((pack: any) => {
@@ -106,7 +109,7 @@ export const sortByDateDown = (page:any, pageCount:any, sortPacksByDateDown:stri
     })
 }
 
-export const changeSliderTC = (page:any, pageCount:any, sortPacks:any, min:any,max:any) => (dispatch:any) => {
+export const changeSliderTC = (page:any, pageCount:any, sortPacks:any, min:number,max:number): ThunkType => (dispatch) => {
 
     packsAPI.getCardPacks(page, pageCount, sortPacks, min,max ).then(data=>{
         const packs = data.data.cardPacks
@@ -115,4 +118,22 @@ export const changeSliderTC = (page:any, pageCount:any, sortPacks:any, min:any,m
 
 
     })
+}
+
+export const deletePackTC = (id: string): ThunkType => (dispatch) => {
+
+    packsAPI.deletePack(id)
+        .then(res => {
+            dispatch(getPacksTC())
+        })
+}
+
+export const updatePackTC = (id: string, name: string): ThunkType => (dispatch) => {
+
+    packsAPI.updatePack(id, name)
+        .then(res => {
+            dispatch(getPacksTC() as any)
+
+        })
+
 }

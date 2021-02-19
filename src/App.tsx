@@ -13,11 +13,7 @@ import {getPacksTC} from "./store/packs-reducer";
 const App = () => {
 
 
-    const dispatch = useDispatch()
-    useEffect(()=>{
-      dispatch(getPacksTC())
 
-    },[])
 
 
     return (
