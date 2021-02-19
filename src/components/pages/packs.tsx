@@ -1,16 +1,24 @@
-import React from 'react';
-import {useSelector} from "react-redux";
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import {PaginationComponent} from "../common/PaginationComponent/PaginationComponent";
 import {SearchComponent} from "../common/SearchComponent/SearchComponent";
 import {SortByDate} from "../common/SortByDate/SortByDate";
 import {SliderAnt} from "../common/PaginationComponent/RangeAnt/RangeAnt";
 import {Cards} from "./Cards";
+import {getPacksTC} from "../../store/packs-reducer";
 
 
 
 function Packs(){
     const options = [10, 20, 30, 40, 50]
     const packs = useSelector<any, any>((state)=>state.cards.packs)
+
+
+    const dispatch = useDispatch()
+    useEffect(()=>{
+        dispatch(getPacksTC())
+
+    },[])
 
     return(
         <div>
