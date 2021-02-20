@@ -1,9 +1,10 @@
 import ReactPaginate from 'react-paginate';
-import React, {ChangeEvent, useEffect, useState} from 'react'
+import React, {ChangeEvent, useState} from 'react'
 import s from './PaginationComponent.module.css'
 //import {cardPacksAPI} from "../../../api/api";
 import {useDispatch, useSelector} from "react-redux";
 import {packsTC} from "../../../store/packs-reducer";
+import {AppStoreType} from "../../../store/store";
 
 type PaginationComponentType={
 
@@ -12,19 +13,16 @@ type PaginationComponentType={
 }
 
 export function PaginationComponent({options}:PaginationComponentType) {
-    const initValueOption = useSelector<any,any>(state=>state.cards.pageCount)
-    const packs = useSelector<any, any>((state)=>state.cards.packsTotalCount)
-    const sortPacks = useSelector<any, any>(state => state.cards.sortPacks)
-    const min = useSelector<any, any>(state => state.cards.minCardsCount)
-    const max = useSelector<any, any>(state => state.cards.maxCardsCount)
-    const inputValueSearch = useSelector<any, any>(state => state.cards.inputValueSearch)
+    const initValueOption = useSelector<AppStoreType,number>(state=>state.cards.pageCount)
+    const packs = useSelector<AppStoreType, number>((state)=>state.cards.packsTotalCount)
+    const sortPacks = useSelector<AppStoreType, string>(state => state.cards.sortPacks)
+    const min = useSelector<AppStoreType, number>(state => state.cards.minCardsCount)
+    const max = useSelector<AppStoreType, number>(state => state.cards.maxCardsCount)
+    const inputValueSearch = useSelector<AppStoreType, string>(state => state.cards.inputValueSearch)
     const dispatch = useDispatch()
-    const page = useSelector<any,any>((state=>state.cards.page))
+    const page = useSelector<AppStoreType,number>((state=>state.cards.page))
 
     const [value, setValue] = useState(initValueOption)
-
-
-
 
 
     const pageCount = Math.ceil(packs/value)
