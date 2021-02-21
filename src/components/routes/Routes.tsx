@@ -8,7 +8,7 @@ import Registration from "../pages/registration";
 import NewPassword from "../pages/new-password";
 import {PackCards} from "../pages/PackCards";
 import {Cards} from "../pages/Cards";
-import Packs from "../pages/packs";
+import Packs from "../pages/Packs";
 
 
 
