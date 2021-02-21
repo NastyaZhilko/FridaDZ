@@ -1,7 +1,15 @@
-import { packsAPI} from "../api/api";
+import {CardPacksType, packsAPI} from "../api/api";
+import {ThunkAction} from "redux-thunk";
+import {AppStoreType} from "./store";
+import {profileAC} from "./profile-reducer";
 
+export type IsLoadingValuesType = 'loading' | 'idle'
+
+type InitStateType = typeof initState
 const initState = {
-    packs:[{}],
+    isLoading: "idle",
+    error: null as string|null,
+    packs:[] as Array<CardPacksType>,
     packsTotalCount:1,
     pageCount: 10,
     page:1,
@@ -10,14 +18,31 @@ const initState = {
     maxCardsCount:10,
     inputValueSearch:''
 }
+type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionType>
+type ActionType=
+    ReturnType<typeof setErrorAC>
+    |ReturnType<typeof setIsLoadingAC>
+    |ReturnType<typeof getPacksAC>
+    |ReturnType<typeof searchedPacksAC>
+    |ReturnType<typeof sortPacksUPAC>
+    |ReturnType<typeof sortPacksDownAC>
+    |ReturnType<typeof sortPacksDownAC>
+    |ReturnType<typeof cardsCountAC>
 
-function packsReducer(state=initState, action:any){
+function packsReducer(state=initState, action:ActionType):InitStateType {
 
     switch (action.type){
 
+        case "SET-IS-LOADING":
+            return {...state, isLoading: action.isLoading}
+
+        case "SET-ERROR":
+            return {...state, error: action.error}
+
         case 'GET-PACKS':{
 
-            return  {...state, packs: action.filteredPacks, packsTotalCount: action.packsTotalCount, pageCount: action.pageCount, page: action.page, rangeMin: action.rangeMin, rangeMax: action.rangeMax}
+            return  {...state, packs: action.filteredPacks, packsTotalCount: action.packsTotalCount,
+                pageCount: action.pageCount, page: action.page}
             //return  {...state, newCards: action.newCards, packsTotalCount: action.packsTotalCount}
         }
         case 'SEARCHED-PACKS':{
@@ -41,78 +66,160 @@ function packsReducer(state=initState, action:any){
 }
 export default packsReducer
 
+//actions
 
-export const getPacksTC = () => (dispatch:any) => {
+const setErrorAC = (error: string | null) => ({type: "SET-ERROR", error} as const)
+const setIsLoadingAC = (isLoading: IsLoadingValuesType) => ({type: "SET-IS-LOADING", isLoading} as const)
+const getPacksAC = (filteredPacks: Array<CardPacksType>, packsTotalCount: number, page: number, pageCount: number) =>
+    ({type:'GET-PACKS', filteredPacks, packsTotalCount, page, pageCount } as const)
+const searchedPacksAC = (filteredPacks: Array<CardPacksType>, page: number, pageCount: number, inputValueSearch: string) =>
+    ({type: 'SEARCHED-PACKS', filteredPacks, page, pageCount, inputValueSearch } as const)
+const sortPacksUPAC = (filteredPacks: Array<CardPacksType>, sortPacksByDateUp:string) =>
+    ({type: 'SORT-PACKS-UP', filteredPacks, sortPacksByDateUp} as const)
+const sortPacksDownAC = (filteredPacks: Array<CardPacksType>, sortPacksByDateDown:string) =>
+    ({type: 'SORT-PACKS-DOWN', filteredPacks, sortPacksByDateDown} as const)
+const cardsCountAC = (packs:Array<CardPacksType>,  min:number, max:number, packsTotalCount:number) =>
+    ({type:'CARDS-COUNT',packs,  min, max, packsTotalCount} as const)
 
-
+//thunks
+export const getPacksTC = () : ThunkType=> (dispatch) => {
+    dispatch(setIsLoadingAC("loading"))
     packsAPI.getCardPacks().then((data)=>{
+        debugger
         const packsTotalCount= data.data.cardPacksTotalCount
         const filteredPacks = data.data.cardPacks
         const page = data.data.page
         const pageCount = data.data.pageCount
-        dispatch({type:'GET-PACKS', filteredPacks, packsTotalCount, page, pageCount })//rangeMin, rangeMax
+        dispatch(getPacksAC(filteredPacks, packsTotalCount, page, pageCount))//rangeMin, rangeMax
+        dispatch(setIsLoadingAC("idle"))
     })
+        .catch(err => {
+            if (err.response) {
+                dispatch(setErrorAC(err.response.data.error))
+            } else {
+                dispatch(setErrorAC("Some error"))
+            }
+            dispatch(setIsLoadingAC("idle"))
+        })
 }
 
-export const packsTC = (page: number, pageCount:number, sortPacks:any, min:any, max:any, inputValueSearch:any ) => (dispatch:any) => {
+export const packsTC = (page: number, pageCount:number, sortPacks:string, min:number, max:number, inputValueSearch:string ) :
+    ThunkType=> (dispatch) => {
 
     packsAPI.getCardPacks(page, pageCount, sortPacks, min,  max).then((cards)=>{
         const packsTotalCount= cards.data.cardPacksTotalCount
         const packs = cards.data.cardPacks
-        const filteredPacks = packs.filter((pack: any) => {
+        const filteredPacks = packs.filter((pack: CardPacksType) => {
             return pack.name.toLowerCase().indexOf(inputValueSearch) !== -1
 
         })
 
-        dispatch({type:'GET-PACKS', filteredPacks, packsTotalCount, pageCount:pageCount, page:page})
+        dispatch(dispatch(getPacksAC(filteredPacks, packsTotalCount, page, pageCount)))
     })
 }
-export const changeInputTC = (e:any, page:any, pageCount:any, sortPacks:any, min:any, max:any) => (dispatch:any) => {
-
+export const changeInputTC = (e:any, page:number, pageCount:number, sortPacks:string, min:number, max:number):
+    ThunkType  =>(dispatch) => {
+    dispatch(setIsLoadingAC("loading"))
     packsAPI.getCardPacks(page, pageCount, sortPacks, min, max).then((data) => {
 
         const packs = data.data.cardPacks
         const page = data.data.page
         const pageCount = data.data.pageCount
         const inputValueSearch = e.target.value.toLowerCase().trim()
-        const filteredPacks = packs.filter((pack: any) => {
+        const filteredPacks = packs.filter((pack: CardPacksType) => {
             return pack.name.toLowerCase().indexOf(e.target.value.toLowerCase().trim()) !== -1
 
         })
 
-        dispatch({type: 'SEARCHED-PACKS', filteredPacks, page, pageCount, inputValueSearch })
+        dispatch(searchedPacksAC(filteredPacks, page, pageCount, inputValueSearch))
 
     })
 }
-export const sortByDateUpTC = (page:any, pageCount:any, sortPacksByDateUp:string, min:any, max:any, inputValueSearch:any) => (dispatch:any) => {
+export const sortByDateUpTC =
+    (page:number, pageCount:number, sortPacksByDateUp:string, min:number, max:number, inputValueSearch:string):
+        ThunkType => (dispatch) => {
+    dispatch(setIsLoadingAC("loading"))
     packsAPI.getCardPacks(page, pageCount, sortPacksByDateUp, min, max).then((data)=>{
         const packs = data.data.cardPacks
-        const filteredPacks = packs.filter((pack: any) => {
+        const filteredPacks = packs.filter((pack: CardPacksType) => {
             return pack.name.toLowerCase().indexOf(inputValueSearch) !== -1
 
         })
-        dispatch({type: 'SORT-PACKS-UP', filteredPacks, sortPacksByDateUp})
+        dispatch(sortPacksUPAC(filteredPacks, sortPacksByDateUp))
     })
 }
 
-export const sortByDateDown = (page:any, pageCount:any, sortPacksByDateDown:string, min:any, max:any, inputValueSearch:any) => (dispatch:any) => {
+export const sortByDateDown = (page:number, pageCount:number, sortPacksByDateDown:string, min:number, max:number, inputValueSearch:any): ThunkType => (dispatch) => {
+    dispatch(setIsLoadingAC("loading"))
     packsAPI.getCardPacks(page, pageCount, sortPacksByDateDown, min, max).then((data)=>{
         const packs = data.data.cardPacks
-        const filteredPacks = packs.filter((pack: any) => {
+        const filteredPacks = packs.filter((pack: CardPacksType) => {
             return pack.name.toLowerCase().indexOf(inputValueSearch) !== -1
 
         })
-        dispatch({type: 'SORT-PACKS-DOWN', filteredPacks, sortPacksByDateDown})
+        dispatch(sortPacksDownAC(filteredPacks, sortPacksByDateDown))
     })
 }
 
-export const changeSliderTC = (page:any, pageCount:any, sortPacks:any, min:any,max:any) => (dispatch:any) => {
-
+export const changeSliderTC = (page:number, pageCount:number, sortPacks:string, min:number,max:number): ThunkType => (dispatch) => {
+    dispatch(setIsLoadingAC("loading"))
     packsAPI.getCardPacks(page, pageCount, sortPacks, min,max ).then(data=>{
         const packs = data.data.cardPacks
         const packsTotalCount= data.data.cardPacksTotalCount
-        dispatch({type:'CARDS-COUNT',packs,  min, max, packsTotalCount})
+        dispatch(cardsCountAC(packs,  min, max, packsTotalCount))
 
 
     })
+}
+
+export const createPackTC = (): ThunkType => (dispatch) => {
+    dispatch(setIsLoadingAC("loading"))
+    packsAPI.createPack()
+        .then(res => {
+            dispatch(getPacksTC())
+            dispatch(setIsLoadingAC("idle"))
+        })
+        .catch(err => {
+            if (err.response) {
+                dispatch(setErrorAC(err.response.data.error))
+            } else {
+                dispatch(setErrorAC("Some error"))
+            }
+            dispatch(setIsLoadingAC("idle"))
+        })
+}
+
+
+export const deletePackTC = (id: string): ThunkType => (dispatch) => {
+    dispatch(setIsLoadingAC("loading"))
+    packsAPI.deletePack(id)
+        .then(res => {
+            dispatch(getPacksTC())
+            dispatch(setIsLoadingAC("idle"))
+        })
+        .catch(err => {
+            if (err.response) {
+                dispatch(setErrorAC(err.response.data.error))
+            } else {
+                dispatch(setErrorAC("Some error"))
+            }
+            dispatch(setIsLoadingAC("idle"))
+        })
+}
+
+export const updatePackTC = (id: string, name: string): ThunkType => (dispatch) => {
+    dispatch(setIsLoadingAC("loading"))
+    packsAPI.updatePack(id, name)
+        .then(res => {
+            dispatch(getPacksTC())
+            dispatch(setIsLoadingAC("idle"))
+        })
+        .catch(err => {
+            if (err.response) {
+                dispatch(setErrorAC(err.response.data.error))
+            } else {
+                dispatch(setErrorAC("Some error"))
+            }
+            dispatch(setIsLoadingAC("idle"))
+        })
 }

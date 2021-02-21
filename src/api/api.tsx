@@ -68,7 +68,7 @@ export const authAPI = {
 };
 
 //типизация и апи для колод
-/*export type CardsPackDataType = {
+export type CardsPackDataType = {
     name: string
 }
 export type CardPacksType = {
@@ -106,7 +106,7 @@ export type CreateCardRequestType = {
     cardsPack_id: string
     question?: string
     answer?: string
-}*/
+}
 
 
 
@@ -119,7 +119,7 @@ export const packsAPI = {
         min: number = 0,
         max: number = 24
     ) {
-        return api.get<any>('/cards/pack', {
+        return api.get<CardPacksResponseType>('/cards/pack', {
 
             params: {
                 page,
@@ -130,11 +130,11 @@ export const packsAPI = {
             }
         })
     },
-    createPack(name: string) {
-        return api.post(`cards/pack`, {cardsPack: {name}})
+    createPack() {
+        return api.post(`cards/pack`, {cardsPack: {name: "MNV"}})
     },
     deletePack(id: string) {
-        return api.delete(`cards/pack/?id=${id}`)
+        return api.delete(`cards/pack`, {params: {id}})
     },
     updatePack(id: string, name: string) {
         return api.put(`cards/pack/`, {cardsPack: {_id: id, name}})
@@ -146,7 +146,7 @@ export const packsAPI = {
 
 //типизация и апи для карточек
 
-/*export type CardType = {
+export type CardType = {
     _id: string
     cardsPack_id: string
     user_id: string
@@ -163,11 +163,11 @@ export const packsAPI = {
     updated: string
     __v: number
 
-}*/
+}
 
 
 
-/*export type CardsResponseType={
+export type CardsResponseType={
     cards: CardType[]
     cardsTotalCount: number
     maxGrade: number
@@ -176,7 +176,7 @@ export const packsAPI = {
     pageCount: number
     packUserId: string
 
-}*/
+}
 export const cardsAPI = {
     getCards(packId: string) {
         return api.get('/cards/card/', {
@@ -190,7 +190,7 @@ export const cardsAPI = {
         return api.post(`cards/card`,{card:{cardId,question:'',answer:''}})
     },
     deleteCard(cardId:string){
-        return api.delete(`cards/card/?id=${cardId}`)
+        return api.delete(`cards/card`,{params: {cardId}})
     },
     updateCard(cardId:string){
         return api.put(`cards/card`,{card:{cardId,question:'',comments:''}})

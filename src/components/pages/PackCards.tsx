@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {packCardsTC} from "../../store/packCards-reducer";
+import {getPacksTC} from "../../store/packs-reducer";
 
 export function PackCards(){
     const {packId} = useParams<{ packId: string }>();
@@ -10,6 +11,7 @@ export function PackCards(){
     useEffect(()=>{
         dispatch(packCardsTC(packId))
     },[])
+
     return(
         <div>
             {cards.map((card:any)=>{
