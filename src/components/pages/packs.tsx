@@ -38,8 +38,12 @@ function Packs() {
             </div>
 
             {packs.map((packs: CardPacksType) =>
-                <Pack pack_id={packs._id}
-                      userId={packs.user_id}/>
+                <Pack
+                    name={packs.name}
+                    cardsCount={packs.cardsCount}
+                    updated={packs.updated}
+                    pack_id={packs._id}
+                    userId={packs.user_id}/>
             )}
             <PaginationComponent options={options}/>
 

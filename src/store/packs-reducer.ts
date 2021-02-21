@@ -85,6 +85,7 @@ const cardsCountAC = (packs:Array<CardPacksType>,  min:number, max:number, packs
 export const getPacksTC = () : ThunkType=> (dispatch) => {
     dispatch(setIsLoadingAC("loading"))
     packsAPI.getCardPacks().then((data)=>{
+        debugger
         const packsTotalCount= data.data.cardPacksTotalCount
         const filteredPacks = data.data.cardPacks
         const page = data.data.page

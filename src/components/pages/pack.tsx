@@ -6,15 +6,14 @@ import {CardPacksType} from "../../api/api";
 import {AppStoreType} from "../../store/store";
 
 type PropsType = {
-    /*name: string
+    name: string
     cardsCount?: number
-    updated?: string*/
+    updated?: string
     pack_id: string
     userId: string
 }
 export const Pack = (props: PropsType) => {
 
-    const packs = useSelector<AppStoreType, Array<CardPacksType>>((state) => state.cards.packs)
     const dispatch = useDispatch()
 
 
@@ -24,19 +23,19 @@ export const Pack = (props: PropsType) => {
 
     return (
         <div>
-            {packs.map((pack: CardPacksType, index: number) => {
-                return <div style={{display: 'flex', justifyContent: 'space-around'}}>
-                    <div key={index}>{`${pack.name} ---- ${pack.cardsCount}----${pack.updated}-----`}</div>
-                    <div>
-                        <button name={"del"} onClick={deletePack}>Delete</button>
-                    </div>
-                    <div>
-                        <button name={"update"}>Update</button>
-                    </div>
 
-                    <Cards packId={pack._id}/>
+            <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                <div>{`${props.name} ---- ${props.cardsCount}----${props.updated}-----`}</div>
+                <div>
+                    <button name={"del"} onClick={deletePack}>Delete</button>
                 </div>
-            })}
+                <div>
+                    <button name={"update"}>Update</button>
+                </div>
+
+                <Cards packId={props.pack_id}/>
+            </div>
+
 
         </div>
 
