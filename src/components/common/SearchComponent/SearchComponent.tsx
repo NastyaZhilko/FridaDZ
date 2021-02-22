@@ -71,8 +71,8 @@ export function SearchComponent({cards}: any) {
 
     return (
         <div>
-            <span>Search</span>
-            <input type="text" placeholder='Enter name pack' onChange={debounceChangeInput} />
+           {/* <span>Search</span>*/}
+            <input type="text" placeholder='Search' onChange={debounceChangeInput} />
         </div>
     )
 }

@@ -4,19 +4,24 @@ import {PaginationComponent} from "../common/PaginationComponent/PaginationCompo
 import {SearchComponent} from "../common/SearchComponent/SearchComponent";
 import {SortByDate} from "../common/SortByDate/SortByDate";
 import {SliderAnt} from "../common/PaginationComponent/RangeAnt/RangeAnt";
-import {createPackTC, getPacksTC} from "../../store/packs-reducer";
+import {createPackTC, deletePackTC, getPacksTC, IsLoadingValuesType} from "../../store/packs-reducer";
 import Pack from "./pack";
 import {AppStoreType} from "../../store/store";
 import {CardPacksType} from "../../api/api";
+import {NavLink} from "react-router-dom";
+import style from './packs.module.css'
+import {Cards} from "./Cards";
 
 
 function Packs() {
     const options = [10, 20, 30, 40, 50]
+    const status = useSelector<AppStoreType, IsLoadingValuesType>(state => state.cards.status)
     const packs = useSelector<AppStoreType, Array<CardPacksType>>((state) => state.cards.packs)
     const dispatch = useDispatch()
 
     const createPack = () => dispatch(createPackTC())
-
+    const deletePack = (id: string) => dispatch(deletePackTC(id))
+    // const updatePack = () => dispatch(updatePackTC(props.pack_id))
     useEffect(() => {
         dispatch(getPacksTC())
 
@@ -26,26 +31,44 @@ function Packs() {
         <div>
             <h1>Packs</h1>
             <SliderAnt/>
-            <SortByDate/>
-            <SearchComponent/>
-            <div style={{display: 'flex', justifyContent: 'space-around'}}>
+            <div className={style.table}>
+                <table>
+                    <div className={`${style.tableItem} ${style.tableHeader}`}>
+                    <thead>
+                    <tr>
+                        <th><div className={style.ceil}>Name <SearchComponent/></div></th>
+                        <th>CardsCount</th>
+                        <th><div className={style.ceil}>Update <SortByDate/></div></th>
+                        <th><label>Add pack: <button onClick={createPack} disabled={status === 'loading'}>Add</button>
+                        </label></th>
+                        <th>Cards</th>
+                    </tr>
+                    </thead>
+                    </div>
+                    <div className={style.tableItem}>
+                    <tbody>
+                    {packs.map((pack: any, index: number) =>
+                        <tr key={index}>
+                            <td>{`${pack.name}`} </td>
+                            <td>{`${pack.cardsCount}`}</td>
+                            <td>{`${pack.updated}`}</td>
+                            <td><div className={style.tableItem}>
+                                <button name={"del"} disabled={status === 'loading'}
+                                        onClick={() => deletePack(pack._id)}>Delete
+                                </button>
+                                <button name={"update"} disabled={status === 'loading'}>Update</button>
+                            </div>
+                            </td>
+                            <td><Cards packId={pack._id}/></td>
+                        </tr>
+                    )}
+                    </tbody>
+                    </div>
+                </table>
 
-                <div>Name</div>
-                <div>CardsCount</div>
-                <div>Update</div>
-                <label>Create new pack: <button onClick={createPack}>Add</button></label>
-                <div>Cards</div>
             </div>
+                <PaginationComponent options={options}/>
 
-            {packs.map((packs: CardPacksType) =>
-                <Pack
-                    name={packs.name}
-                    cardsCount={packs.cardsCount}
-                    updated={packs.updated}
-                    pack_id={packs._id}
-                    userId={packs.user_id}/>
-            )}
-            <PaginationComponent options={options}/>
 
         </div>
     )

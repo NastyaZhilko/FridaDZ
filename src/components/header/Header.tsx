@@ -19,7 +19,6 @@ function Header() {
         <div className={s.sidebar}>
             <div className={s.menu} onClick={toggle}>&#9776;</div>
             <div className={`${s.containerMenuLinks} ${activeMenu && s.activeMenu}`}>
-                <NavLink to={PATH.login} className={s.inactive} activeClassName={s.active}>  Login  </NavLink>
                 <NavLink to={PATH.passwordRecovery} className={s.inactive} activeClassName={s.active}>  Password
                     recovery  </NavLink>
                 <NavLink to={PATH.profile} className={s.inactive} activeClassName={s.active}>  Profile  </NavLink>

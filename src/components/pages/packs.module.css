@@ -1,0 +1,31 @@
+.table{
+    width: 1200px;
+    margin: 0 auto;
+    border: 2px solid #f0f0f0;
+    borderCollapse: collapse;
+    table-layout: inherit;
+    border-radius: 5px;
+}
+th {
+    width: 200px;
+}
+td {
+    width: 200px;
+}
+th, td {
+    border: 2px solid #69c;
+}
+.ceil{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+button{
+    border-radius: 5px;
+    margin: 2px;
+    background-color: #8799ef;
+}
+input{
+    border-radius: 5px;
+    width: 100px;
+}

@@ -7,7 +7,7 @@ export type IsLoadingValuesType = 'loading' | 'idle'
 
 type InitStateType = typeof initState
 const initState = {
-    isLoading: "idle",
+    status: "idle" as IsLoadingValuesType,
     error: null as string|null,
     packs:[] as Array<CardPacksType>,
     packsTotalCount:1,
@@ -34,7 +34,7 @@ function packsReducer(state=initState, action:ActionType):InitStateType {
     switch (action.type){
 
         case "SET-IS-LOADING":
-            return {...state, isLoading: action.isLoading}
+            return {...state, status: action.status}
 
         case "SET-ERROR":
             return {...state, error: action.error}
@@ -69,7 +69,7 @@ export default packsReducer
 //actions
 
 const setErrorAC = (error: string | null) => ({type: "SET-ERROR", error} as const)
-const setIsLoadingAC = (isLoading: IsLoadingValuesType) => ({type: "SET-IS-LOADING", isLoading} as const)
+const setIsLoadingAC = (status: IsLoadingValuesType) => ({type: "SET-IS-LOADING", status} as const)
 const getPacksAC = (filteredPacks: Array<CardPacksType>, packsTotalCount: number, page: number, pageCount: number) =>
     ({type:'GET-PACKS', filteredPacks, packsTotalCount, page, pageCount } as const)
 const searchedPacksAC = (filteredPacks: Array<CardPacksType>, page: number, pageCount: number, inputValueSearch: string) =>
