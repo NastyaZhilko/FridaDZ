@@ -18,8 +18,8 @@ const initState = {
     maxCardsCount:10,
     inputValueSearch:''
 }
-type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionType>
-type ActionType=
+type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionsType>
+type ActionsType=
     ReturnType<typeof setErrorAC>
     |ReturnType<typeof setIsLoadingAC>
     |ReturnType<typeof getPacksAC>
@@ -29,7 +29,7 @@ type ActionType=
     |ReturnType<typeof sortPacksDownAC>
     |ReturnType<typeof cardsCountAC>
 
-function packsReducer(state=initState, action:ActionType):InitStateType {
+function packsReducer(state=initState, action:ActionsType):InitStateType {
 
     switch (action.type){
 
@@ -105,7 +105,6 @@ export const getPacksTC = () : ThunkType=> (dispatch) => {
 
 export const packsTC = (page: number, pageCount:number, sortPacks:string, min:number, max:number, inputValueSearch:string ) :
     ThunkType=> (dispatch) => {
-
     packsAPI.getCardPacks(page, pageCount, sortPacks, min,  max).then((cards)=>{
         const packsTotalCount= cards.data.cardPacksTotalCount
         const packs = cards.data.cardPacks

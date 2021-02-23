@@ -32,7 +32,7 @@ function PasswordRecovery() {
         <div>
             <h3>Password recovery</h3>
             <div className={style.container}>
-                <SuperInputText name={'email'}  placeholder="Email"/>
+                <SuperInputText name={'email'}  placeholder={'Email'}/>
                 <span>Enter your email</span>
                 <SuperButton>
                     Send

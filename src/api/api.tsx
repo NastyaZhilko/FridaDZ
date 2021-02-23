@@ -102,14 +102,6 @@ export type UpdatePacksDataType = {
     name?: string
 }
 
-export type CreateCardRequestType = {
-    cardsPack_id: string
-    question?: string
-    answer?: string
-}
-
-
-
 export const packsAPI = {
 
     getCardPacks(
@@ -177,6 +169,12 @@ export type CardsResponseType={
     packUserId: string
 
 }
+export type CreateCardRequestType = {
+    cardsPack_id: string
+    question?: string
+    answer?: string
+}
+
 export const cardsAPI = {
     getCards(packId: string) {
         return api.get('/cards/card/', {
@@ -186,13 +184,13 @@ export const cardsAPI = {
             }
         })
     },
-    createCard(cardId:string){
-        return api.post(`cards/card`,{card:{cardId,question:'',answer:''}})
+    createCard(cardsPack_id:string){
+        return api.post(`cards/card`,{card:{cardsPack_id,question:'new question',answer:'new answer'}})
     },
-    deleteCard(cardId:string){
-        return api.delete(`cards/card`,{params: {cardId}})
+    deleteCard(id:string){
+        return api.delete(`cards/card?id=${id}`)
     },
-    updateCard(cardId:string){
-        return api.put(`cards/card`,{card:{cardId,question:'',comments:''}})
+    updateCard(id:string){
+        return api.put(`cards/card`,{card:{_id:id, question:'update',comments:'new'}})
     }
 }

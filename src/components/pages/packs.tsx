@@ -25,7 +25,7 @@ function Packs() {
     useEffect(() => {
         dispatch(getPacksTC())
 
-    }, [])
+    }, [dispatch])
 
     return (
         <div>
