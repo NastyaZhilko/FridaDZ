@@ -24,7 +24,7 @@ export function RangeComponent({min, max}:RangeComponentType){
 
     console.log(min)
     console.log(max)
-    debugger
+
     return(
         <div style={rangeStyle}>
             <div style={currentRanges}>

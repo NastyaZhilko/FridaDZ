@@ -1,4 +1,4 @@
-import {cardsAPI} from "../api/api";
+import {cardsAPI, gradeCardAPI} from "../api/api";
 
 const initState = {
     cards: [{
@@ -23,4 +23,10 @@ export const packCardsTC = (packId:string) => (dispatch:any) => {
         dispatch({type: 'GET-CARDS', cards})
     })
 
+}
+export const gradeTC = (data:any) => (dispatch:any) => {
+    debugger
+    gradeCardAPI.gradeCard(data).then(response=>{
+        debugger
+    })
 }

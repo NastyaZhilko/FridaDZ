@@ -4,6 +4,7 @@ import {Cards} from "./Cards";
 import {deletePackTC} from "../../store/packs-reducer";
 import {CardPacksType} from "../../api/api";
 import {AppStoreType} from "../../store/store";
+import { Learn } from './Learn';
 
 type PropsType = {
     name: string
@@ -20,7 +21,6 @@ export const Pack = (props: PropsType) => {
     const deletePack = () => dispatch(deletePackTC(props.pack_id))
     // const updatePack = () => dispatch(updatePackTC(props.pack_id))
 
-
     return (
         <div>
 
@@ -34,6 +34,7 @@ export const Pack = (props: PropsType) => {
                 </div>
 
                 <Cards packId={props.pack_id}/>
+                <Learn packId={props.pack_id}/>
             </div>
 
 

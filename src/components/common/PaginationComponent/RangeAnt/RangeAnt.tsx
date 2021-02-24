@@ -23,7 +23,7 @@ export function SliderAnt( ){
     function click(){
      //@ts-ignore
         const value = ref.current.props.value
-        dispatch(changeSliderTC(page, pageCount,sortPacks, value[0],value[1], inputValueSearch))
+        dispatch(changeSliderTC(page, pageCount,sortPacks, value[0],value[1]))
 
 
     }

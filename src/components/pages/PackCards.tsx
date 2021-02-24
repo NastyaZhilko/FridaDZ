@@ -8,6 +8,7 @@ export function PackCards(){
     const {packId} = useParams<{ packId: string }>();
     const dispatch = useDispatch()
     const cards = useSelector<any, any>(state=>state.packCards.cards)
+    debugger
     useEffect(()=>{
         dispatch(packCardsTC(packId))
     },[])
