@@ -67,7 +67,7 @@ export const authAPI = {
     }
 };
 
-//типизация и апи для колод
+//типизация и апи для колод;
 export type CardsPackDataType = {
     name: string
 }
