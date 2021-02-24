@@ -1,12 +1,9 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {Cards} from "./Cards";
 import {createPackTC, deletePackTC, IsLoadingValuesType} from "../../store/packs-reducer";
 import {CardPacksType} from "../../api/api";
 import {AppStoreType} from "../../store/store";
 import {NavLink} from "react-router-dom";
-import {PATH} from "../routes/Routes";
-import {Table} from "antd";
 
 type PropsType = {
     name: string

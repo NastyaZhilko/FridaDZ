@@ -11,6 +11,7 @@ export function Login() {
 
     const dispatch = useDispatch()
     const isAuth = useSelector<AppStoreType, boolean>(state => state.login.isAuth)
+    const isFetching = useSelector<AppStoreType, boolean>(state => state.login.isFetching)
 
     if (isAuth) {
         return <Redirect to={'/profile'} />
@@ -31,7 +32,7 @@ export function Login() {
         'flex-direction': 'column',
         'align-items': 'center'
     }
-
+    debugger
     return (
         <form onSubmit={submitLoginData}>
             <div style={loginStyle}>
@@ -40,7 +41,7 @@ export function Login() {
                 <SuperInput name={'password'} type={'password'} placeholder={'Enter your password'}/>
                 <div><SuperCheckbox name={'rememberMe'} type={'checkbox'}/>
                     <span>Remember Me</span></div>
-                <SuperButton type={'submit'}>Send</SuperButton>
+                <SuperButton type={'submit'} disabled={isFetching}>Send</SuperButton>
             </div>
         </form>
     );

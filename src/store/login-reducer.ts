@@ -95,9 +95,10 @@ export const loginAC = (data: LoginFormData) => ({type: 'LOGIN', data} as const)
 export const login = (data: LoginFormData): ThunkType => {
 
     return (dispatch: ThunkDispatch<AppStoreType, unknown, ActionsType>) => {
-        dispatch(toggleIsFetching(true))
+
         authAPI.login(data)
             .then(response => {
+                dispatch(toggleIsFetching(true))
                 let data: UserDataType = response.data
                 let isAuth = true
                 dispatch(setAuthUserDataAC(data, isAuth))
