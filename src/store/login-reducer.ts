@@ -27,6 +27,7 @@ type UserAuthData = {
     isAuth: boolean
     isFetching: boolean
     error: string | null
+    showSuccessModal: boolean
 }
 
 /*email: "nya-admin@nya.nya",
@@ -49,7 +50,8 @@ const initState: UserAuthData = {
     },
     isAuth: false,
     isFetching: false,
-  error:''
+    error: '',
+    showSuccessModal: false
 };
 
 export const loginReducer = (state = initState, action: ActionsType): UserAuthData => {
@@ -64,6 +66,8 @@ export const loginReducer = (state = initState, action: ActionsType): UserAuthDa
         case "TOGGLE-IS-FETCHING": {
             return {...state, isFetching: action.isFetching}
         }
+        case "SET-SHOW-SUCCESS-MODAL":
+            return {...state, showSuccessModal: action.show}
         default:
             return state;
     }
@@ -81,11 +85,13 @@ const toggleIsFetching = (isFetching: boolean) => ({
     type: 'TOGGLE-IS-FETCHING',
     isFetching
 } as const)
+export const setShowSuccessModalAC = (show: boolean) => ({type: "SET-SHOW-SUCCESS-MODAL", show} as const)
 
 type ActionsType =
     ReturnType<typeof setAuthUserDataAC>
     | ReturnType<typeof errorAC>
     | ReturnType<typeof toggleIsFetching>
+    | ReturnType<typeof setShowSuccessModalAC>
 
 type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionsType>
 
@@ -101,6 +107,10 @@ export const login = (data: LoginFormData): ThunkType => {
                 let data: UserDataType = response.data
                 let isAuth = true
                 dispatch(setAuthUserDataAC(data, isAuth))
+                dispatch(setShowSuccessModalAC(true))
+                setTimeout(() => {
+                    dispatch(setShowSuccessModalAC(false))
+                }, 2000)
             })
             .catch((e) => {
                 const error = e.response
@@ -118,5 +128,9 @@ export const logout = (): ThunkType => {
     return (dispatch: ThunkDispatch<AppStoreType, unknown, ActionsType>) => {
         authAPI.logout()
             .then(() => dispatch(setAuthUserDataAC(initState.data, false)))
+        dispatch(setShowSuccessModalAC(true))
+        setTimeout(() => {
+            dispatch(setShowSuccessModalAC(false))
+        }, 2000)
     }
 }

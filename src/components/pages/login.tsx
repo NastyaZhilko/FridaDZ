@@ -6,11 +6,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {login, LoginFormData} from "../../store/login-reducer";
 import {AppStoreType} from "../../store/store";
 import {Redirect} from "react-router-dom";
+import {Modal} from "./modal/modal";
 
 export function Login() {
 
     const dispatch = useDispatch()
     const isAuth = useSelector<AppStoreType, boolean>(state => state.login.isAuth)
+    const show = useSelector<AppStoreType, boolean>(state => state.login.showSuccessModal)
 
     if (isAuth) {
         return <Redirect to={'/profile'} />
@@ -31,9 +33,15 @@ export function Login() {
         'flex-direction': 'column',
         'align-items': 'center'
     }
+    let top: number;
+    if(show) {
+        top = 100
+    }else{
+        top = -100
+    }
 
     return (
-        <form onSubmit={submitLoginData}>
+       <> <form onSubmit={submitLoginData}>
             <div style={loginStyle}>
                 <h2>Login</h2>
                 <SuperInput name={'email'} placeholder={'Enter your email'}/>
@@ -43,6 +51,13 @@ export function Login() {
                 <SuperButton type={'submit'}>Send</SuperButton>
             </div>
         </form>
+           <Modal title={"Success"} width={100} height={50} backgroundDiv={false} bgOnClick={() => {}}
+                  CSSStyles={{
+                      top: top+"px",
+                      backgroundColor: "lightgreen"
+                  }}
+           />
+       </>
     );
 }
 

@@ -21,7 +21,6 @@ export const Pack = (props: PropsType) => {
     const packs = useSelector<AppStoreType, Array<CardPacksType>>((state) => state.cards.packs)
     const dispatch = useDispatch()
 
-    const createPack = () => dispatch(createPackTC())
     const deletePack = () => dispatch(deletePackTC(props.pack_id))
     // const updatePack = () => dispatch(updatePackTC(props.pack_id))
 
@@ -47,7 +46,7 @@ export const Pack = (props: PropsType) => {
                     <th>Name</th>
                     <th>CardsCount</th>
                     <th>Update</th>
-                    <th><label>Add pack: <button onClick={createPack} disabled={status==='loading'}>Add</button></label></th>
+                   {/* <th><label>Add pack: <button onClick={createPack} disabled={status==='loading'}>Add</button></label></th>*/}
                     <th>Cards</th>
                 </tr>
                 </thead>

@@ -1,0 +1,17 @@
+.container {
+    padding-top: 150px;
+}
+
+.text {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: xx-large;
+}
+
+.button {
+    width: 115px;
+    margin: 4px 5px;
+}
+
+.button:nth-child(1){
+    margin-left: 0px;
+}

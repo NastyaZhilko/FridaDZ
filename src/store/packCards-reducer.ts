@@ -1,4 +1,4 @@
-import {cardsAPI, CardType, packsAPI} from "../api/api";
+import {cardsAPI, CardType, gradeCardAPI, packsAPI} from "../api/api";
 import {getPacksTC, IsLoadingValuesType} from "./packs-reducer";
 import {ThunkAction} from "redux-thunk";
 import {AppStoreType} from "./store";
@@ -9,12 +9,16 @@ const initialState = {
     status: "idle" as IsLoadingValuesType,
     error: null as string|null,
     cards: [] as Array<CardType>,
+    showSuccessModal: false
 }
 
 type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionsType>
 type ActionsType = ReturnType<typeof setErrorAC>
     |ReturnType<typeof setIsLoadingAC>
     |ReturnType<typeof getCardsAC>
+    |ReturnType<typeof setShowSuccessModalAC>
+
+
 
 export function packCardsReducer(state=initialState, action:ActionsType):InitialStateType{
     switch(action.type){
@@ -27,6 +31,8 @@ export function packCardsReducer(state=initialState, action:ActionsType):Initial
         case 'GET-CARDS':{
             return {...state, cards: action.cards}
         }
+        case "SET-SHOW-SUCCESS-MODAL":
+            return {...state, showSuccessModal: action.show}
         default:
             return state
     }
@@ -38,9 +44,13 @@ const setIsLoadingAC = (status: IsLoadingValuesType) => ({type: "SET-IS-LOADING"
 
 const getCardsAC = (cards: Array<CardType>) => ({type: 'GET-CARDS', cards} as const)
 
-export const getCardsTC = (packId:string):ThunkType => (dispatch) => {
+const setShowSuccessModalAC = (show: boolean) => (
+    {type: "SET-SHOW-SUCCESS-MODAL", show} as const)
+
+export const getCardsTC = (cardsPackId:string):ThunkType => (dispatch) => {
     dispatch(setIsLoadingAC("loading"))
-    cardsAPI.getCards(packId).then(data=>{
+    cardsAPI.getCards(cardsPackId)
+        .then(data=>{
         const cards = data.data.cards
         dispatch(getCardsAC(cards))
         dispatch(setIsLoadingAC("idle"))
@@ -62,6 +72,10 @@ export const createCardTC = (cardsPack_id: string): ThunkType => (dispatch) => {
             const cards = data.data.cards
             dispatch(getCardsTC(cardsPack_id))
             dispatch(setIsLoadingAC("idle"))
+            dispatch(setShowSuccessModalAC(true))
+            setTimeout(() => {
+                dispatch(setShowSuccessModalAC(false))
+            }, 2000)
         })
         .catch(err => {
             if (err.response) {
@@ -97,6 +111,28 @@ export const updateCardTC = (id: string, packId: string): ThunkType => (dispatch
         .then(res => {
             dispatch(getCardsTC(packId))
             dispatch(setIsLoadingAC("idle"))
+        })
+        .catch(err => {
+            if (err.response) {
+                dispatch(setErrorAC(err.response.data.error))
+            } else {
+                dispatch(setErrorAC("Some error"))
+            }
+            dispatch(setIsLoadingAC("idle"))
+        })
+}
+
+export const gradeTC = (id: string, grade: number) => (dispatch:any) => {
+
+    gradeCardAPI.gradeCard(id, grade)
+
+        .then(res => {
+
+            dispatch(setIsLoadingAC("idle"))
+            dispatch(setShowSuccessModalAC(true))
+            setTimeout(() => {
+                dispatch(setShowSuccessModalAC(false))
+            }, 2000)
         })
         .catch(err => {
             if (err.response) {

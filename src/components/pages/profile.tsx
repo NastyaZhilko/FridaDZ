@@ -18,7 +18,7 @@ function Profile() {
             {isAuth
                 ? <div>
                    <div> Name: {userData.name}</div>
-                   <div> Count of cards: {cardsCount}</div>
+                  {/* <div> Count of cards: {cardsCount}</div>*/}
 
 
 

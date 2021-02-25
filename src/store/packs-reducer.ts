@@ -1,7 +1,7 @@
 import {CardPacksType, packsAPI} from "../api/api";
 import {ThunkAction} from "redux-thunk";
 import {AppStoreType} from "./store";
-import {profileAC} from "./profile-reducer";
+
 
 export type IsLoadingValuesType = 'loading' | 'idle'
 
@@ -16,7 +16,8 @@ const initState = {
     sortPacks: '0created',
     minCardsCount:0,
     maxCardsCount:10,
-    inputValueSearch:''
+    inputValueSearch:'',
+    showSuccessModal: false
 }
 type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionsType>
 type ActionsType=
@@ -28,6 +29,7 @@ type ActionsType=
     |ReturnType<typeof sortPacksDownAC>
     |ReturnType<typeof sortPacksDownAC>
     |ReturnType<typeof cardsCountAC>
+    |ReturnType<typeof setShowSuccessModalAC>
 
 function packsReducer(state=initState, action:ActionsType):InitStateType {
 
@@ -60,6 +62,9 @@ function packsReducer(state=initState, action:ActionsType):InitStateType {
 
             return {...state,packs: action.packs, minCardsCount: action.min, maxCardsCount: action.max, packsTotalCount: action.packsTotalCount}
         }
+        case "SET-SHOW-SUCCESS-MODAL":
+            return {...state, showSuccessModal: action.show}
+
         default:
             return initState
     }
@@ -80,18 +85,21 @@ const sortPacksDownAC = (filteredPacks: Array<CardPacksType>, sortPacksByDateDow
     ({type: 'SORT-PACKS-DOWN', filteredPacks, sortPacksByDateDown} as const)
 const cardsCountAC = (packs:Array<CardPacksType>,  min:number, max:number, packsTotalCount:number) =>
     ({type:'CARDS-COUNT',packs,  min, max, packsTotalCount} as const)
+export const setShowSuccessModalAC = (show: boolean) => ({type: "SET-SHOW-SUCCESS-MODAL", show} as const)
+
 
 //thunks
 export const getPacksTC = () : ThunkType=> (dispatch) => {
     dispatch(setIsLoadingAC("loading"))
     packsAPI.getCardPacks().then((data)=>{
-        debugger
+
         const packsTotalCount= data.data.cardPacksTotalCount
         const filteredPacks = data.data.cardPacks
         const page = data.data.page
         const pageCount = data.data.pageCount
         dispatch(getPacksAC(filteredPacks, packsTotalCount, page, pageCount))//rangeMin, rangeMax
         dispatch(setIsLoadingAC("idle"))
+
     })
         .catch(err => {
             if (err.response) {
@@ -177,6 +185,10 @@ export const createPackTC = (): ThunkType => (dispatch) => {
         .then(res => {
             dispatch(getPacksTC())
             dispatch(setIsLoadingAC("idle"))
+            dispatch(setShowSuccessModalAC(true))
+            setTimeout(() => {
+                dispatch(setShowSuccessModalAC(false))
+            }, 2000)
         })
         .catch(err => {
             if (err.response) {

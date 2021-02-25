@@ -6,19 +6,27 @@ import {IsLoadingValuesType} from "../../store/packs-reducer";
 import style from "./packs.module.css";
 import {AppStoreType} from "../../store/store";
 import {CardType} from "../../api/api";
+import {Modal} from "./modal/modal";
 
 
 export function PackCards() {
     const {packId} = useParams<{ packId: string }>();
     const dispatch = useDispatch()
-    const cards = useSelector<any, any>(state => state.packCards.cards)
+    const cards = useSelector<AppStoreType, Array<CardType>>(state => state.packCards.cards)
     const status = useSelector<AppStoreType, IsLoadingValuesType>(state => state.cards.status)
+    const show = useSelector<AppStoreType, boolean>(state => state.packCards.showSuccessModal)
     useEffect(() => {
         dispatch(getCardsTC(packId))
     }, [dispatch])
     const createCard = (id: string) => dispatch(createCardTC(id))
     const deleteCard = (card_id: string) => dispatch(deleteCardTC(card_id, packId))
     const updateCard = (card_id: string) => dispatch(updateCardTC(card_id, packId))
+    let top: number;
+    if(show) {
+        top = 100
+    }else{
+        top = -100
+    }
     return (
         <div>
             <h1>Cards</h1>
@@ -60,6 +68,12 @@ export function PackCards() {
                         </tbody>
                     </div>
                 </table>
+                <Modal title={"Success"} width={100} height={50} backgroundDiv={false} bgOnClick={() => {}}
+                       CSSStyles={{
+                           top: top+"px",
+                           backgroundColor: "lightgreen"
+                       }}
+                />
             </div>
         </div>
     )

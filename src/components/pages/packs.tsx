@@ -4,28 +4,38 @@ import {PaginationComponent} from "../common/PaginationComponent/PaginationCompo
 import {SearchComponent} from "../common/SearchComponent/SearchComponent";
 import {SortByDate} from "../common/SortByDate/SortByDate";
 import {SliderAnt} from "../common/PaginationComponent/RangeAnt/RangeAnt";
-import {createPackTC, deletePackTC, getPacksTC, IsLoadingValuesType} from "../../store/packs-reducer";
+import {createPackTC, deletePackTC, getPacksTC, IsLoadingValuesType, updatePackTC} from "../../store/packs-reducer";
 import Pack from "./pack";
 import {AppStoreType} from "../../store/store";
 import {CardPacksType} from "../../api/api";
 import {NavLink} from "react-router-dom";
 import style from './packs.module.css'
 import {Cards} from "./Cards";
+import {Learn} from "./learn";
+import {Modal} from "./modal/modal";
 
 
 function Packs() {
     const options = [10, 20, 30, 40, 50]
     const status = useSelector<AppStoreType, IsLoadingValuesType>(state => state.cards.status)
     const packs = useSelector<AppStoreType, Array<CardPacksType>>((state) => state.cards.packs)
+    const show = useSelector<AppStoreType, boolean>(state => state.cards.showSuccessModal)
     const dispatch = useDispatch()
 
     const createPack = () => dispatch(createPackTC())
     const deletePack = (id: string) => dispatch(deletePackTC(id))
-    // const updatePack = () => dispatch(updatePackTC(props.pack_id))
+    //const updatePack = (id: string) => dispatch(updatePackTC(id))
     useEffect(() => {
         dispatch(getPacksTC())
 
     }, [dispatch])
+
+    let top: number;
+    if(show) {
+        top = 100
+    }else{
+        top = -100
+    }
 
     return (
         <div>
@@ -60,6 +70,7 @@ function Packs() {
                             </div>
                             </td>
                             <td><Cards packId={pack._id}/></td>
+                            <td><Learn packId={pack._id}/></td>
                         </tr>
                     )}
                     </tbody>
@@ -68,7 +79,12 @@ function Packs() {
 
             </div>
                 <PaginationComponent options={options}/>
-
+            <Modal title={"Success"} width={100} height={50} backgroundDiv={false} bgOnClick={() => {}}
+                   CSSStyles={{
+                       top: top+"px",
+                       backgroundColor: "lightgreen"
+                   }}
+            />
 
         </div>
     )
