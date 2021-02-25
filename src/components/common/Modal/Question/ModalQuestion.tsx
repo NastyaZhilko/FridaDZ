@@ -1,5 +1,6 @@
-import React, {CSSProperties, ReactNode} from 'react';
+import React, {CSSProperties, ReactNode, useState} from 'react';
 import Modal from "../Modal";
+import {ThunkAction} from "redux-thunk";
 
 interface IModalQuestion {
     show: boolean;
@@ -13,53 +14,57 @@ interface IModalQuestion {
     buttonFalse?: ReactNode;
 
     enableBackground?: boolean;
-    backgroundStyle?: CSSProperties;
     backgroundOnClick?: () => void;
 
     width: number;
     height: number;
     modalStyle?: CSSProperties;
     modalOnClick?: () => void;
+
+    action: () => ThunkAction<any, any, any, any>
+    question: string
 }
 
 const ModalQuestion: React.FC<IModalQuestion> = (
     {
         setTrue,
         setFalse,
-        buttonStyles,
+
+
         trueStyles,
         falseStyles,
         buttonTrue = 'Yes',
         buttonFalse = 'No',
 
-        enableBackground,
-        backgroundStyle,
-        backgroundOnClick = () => {},
+        enableBackground,                          //серый затемняющий бэк на весь экран
+        backgroundOnClick = () => {
+        },               //при клике отключает модалку
 
         width,
         height,
-        modalStyle,
-        modalOnClick = () => {},
+        modalOnClick = () => {
+        },
 
         show,
         children,
+        action,
+        question
     }
 ) => {
+    debugger
 
     return (
         <Modal
-            enableBackground={enableBackground}
-            backgroundOnClick={backgroundOnClick}
-            backgroundStyle={backgroundStyle}
+            enableBackground={enableBackground}             //серый затемняющий бэк на весь экран
+            backgroundOnClick={backgroundOnClick}           //при клике отключает модалку
 
             width={width}
             height={height}
             modalOnClick={modalOnClick}
-            modalStyle={modalStyle}
 
             show={show}
         >
-            {children ? children : 'question Modal'}
+            {question}
             <div
                 style={{
                     width: '100%',
@@ -67,10 +72,15 @@ const ModalQuestion: React.FC<IModalQuestion> = (
                     flexFlow: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-around',
-                    ...buttonStyles,
+                    marginTop: '20px',
+
                 }}
             >
-                <button onClick={setTrue} style={{...trueStyles}}>{buttonTrue}</button>
+                <div onClick={setTrue}>
+                    <button onClick={action} style={{...trueStyles}}>
+                        {buttonTrue}
+                    </button>
+                </div>
                 <button onClick={setFalse} style={{...falseStyles}}>{buttonFalse}</button>
             </div>
         </Modal>

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {PaginationComponent} from "../common/PaginationComponent/PaginationComponent";
 import {SearchComponent} from "../common/SearchComponent/SearchComponent";
@@ -17,6 +17,11 @@ function Packs() {
     const status = useSelector<AppStoreType, IsLoadingValuesType>(state => state.cards.status)
     const packs = useSelector<AppStoreType, Array<CardPacksType>>((state) => state.cards.packs)
     const dispatch = useDispatch()
+
+    const [isModalVisible, setIsModalVisible] = useState(false)
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
 
     const createPack = () => dispatch(createPackTC())
     const deletePack = (id: string) => dispatch(deletePackTC(id))
@@ -58,11 +63,15 @@ function Packs() {
                                 <td>{`${pack.updated}`}</td>
                                 <td>
                                     <div className={style.tableItem}>
-                                        <button name={"del"} disabled={status === 'loading'}
-                                                onClick={() => deletePack(pack._id)}>Delete
-                                        </button>
-                                        <ModalQuestionContainer title={'Delete pack'} question={'You want to delete?'}/>
-                                        <button name={"update"} disabled={status === 'loading'}>Update</button>
+                                        {/*<button name={"del"} disabled={status === 'loading'}
+                                                onClick={() => deletePack(pack._id)}>Delete pack
+
+                                        </button>*/}
+                                        <ModalQuestionContainer action={() => deletePack(pack._id)}
+                                                                title={'Delete pack'}
+                                                                question={'Are you want to delete this pack?'}/>
+
+                                        <button name={"update"} disabled={status === 'loading'}>Update title</button>
                                     </div>
                                 </td>
                                 <td><Cards packId={pack._id}/></td>

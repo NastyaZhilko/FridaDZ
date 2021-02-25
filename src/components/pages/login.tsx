@@ -32,7 +32,7 @@ export function Login() {
         'flex-direction': 'column',
         'align-items': 'center'
     }
-    debugger
+
     return (
         <form onSubmit={submitLoginData}>
             <div style={loginStyle}>

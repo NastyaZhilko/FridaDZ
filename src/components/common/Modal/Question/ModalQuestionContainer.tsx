@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
 import ModalQuestion from "./ModalQuestion";
+import {ThunkAction} from "redux-thunk";
 
 type PropsType = {
     title: string
     question: string
+
+    action: () => ThunkAction<any, any, any, any>
 }
 
 const ModalQuestionContainer = (props: PropsType) => {
@@ -23,7 +26,6 @@ const ModalQuestionContainer = (props: PropsType) => {
         <>
             <div>
                 <button onClick={() => setShow(true)}>{props.title}</button>
-                {answer ? <span>Yes</span> : <span>No</span>}
             </div>
 
             <ModalQuestion
@@ -32,13 +34,14 @@ const ModalQuestionContainer = (props: PropsType) => {
                 setTrue={setTrue}
                 setFalse={setFalse}
 
-                enableBackground={true}
-                backgroundOnClick={() => setShow(false)}
+                enableBackground={true}                           //серый затемняющий бэк на весь экран
+                backgroundOnClick={() => setShow(false)}    //при клике отключает модалку
 
                 width={300}
                 height={200}
+                action={props.action}
 
-                children={props.question}
+                question={props.question}
             />
         </>
     );

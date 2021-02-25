@@ -1,13 +1,11 @@
-import React, {CSSProperties} from 'react';
+import React, {CSSProperties, useState} from 'react';
 
 type ModalType = {
     enableBackground?: boolean;
-    backgroundStyle?: CSSProperties;
     backgroundOnClick?: () => void;
 
     width: number;
     height: number;
-    modalStyle?: CSSProperties;
     modalOnClick?: () => void;
 
     show: boolean
@@ -15,19 +13,20 @@ type ModalType = {
 
 const Modal: React.FC<ModalType> = (
     {
-        enableBackground,
-        backgroundStyle,
-        backgroundOnClick = () => {},
+        enableBackground,                       //серый затемняющий бэк на весь экран
+        backgroundOnClick = () => {},           //при клике отключает модалку
 
         width,
         height,
-        modalStyle,
         modalOnClick = () => {},
 
         show,
         children,
+
     }
 ) => {
+
+
     const top = `calc(50vh - ${height / 2}px)`;
     const left = `calc(50vw - ${width / 2}px)`;
 
@@ -35,7 +34,8 @@ const Modal: React.FC<ModalType> = (
 
     return (
         <>
-            {enableBackground && <div
+
+            {enableBackground && <div       //бэкграунд
                 style={{
                     position: 'fixed',
                     top: '0px',
@@ -47,11 +47,12 @@ const Modal: React.FC<ModalType> = (
                     opacity: 0.35,
                     zIndex: 20,
 
-                    ...backgroundStyle,
+
                 }}
-                onClick={backgroundOnClick}
+                onClick={backgroundOnClick}  //при клике отключает модалку
             />}
-            <div
+
+            <div            //модалка
                 style={{
                     position: 'fixed',
                     top,
@@ -62,11 +63,11 @@ const Modal: React.FC<ModalType> = (
                     flexFlow: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    borderRadius: '20px',
 
-                    background: 'lime',
+                    background: '#fff',
                     zIndex: 21,
 
-                    ...modalStyle,
                 }}
                 onClick={modalOnClick}
             >
