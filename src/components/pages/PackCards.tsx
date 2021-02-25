@@ -6,6 +6,7 @@ import {IsLoadingValuesType} from "../../store/packs-reducer";
 import style from "./packs.module.css";
 import {AppStoreType} from "../../store/store";
 import {CardType} from "../../api/api";
+import ModalQuestionContainer from "../common/Modal/Question/ModalQuestionContainer";
 
 
 export function PackCards() {
@@ -47,10 +48,13 @@ export function PackCards() {
                                 <td>{`${card.updated}`}</td>
                                 <td>
                                     <div className={style.tableItem}>
-                                        <button name={"del"} disabled={status === 'loading'}
+                                        {/*<button name={"del"} disabled={status === 'loading'}
                                                 onClick={() => deleteCard(card._id)}>
                                             Delete
-                                        </button>
+                                        </button>*/}
+                                        <ModalQuestionContainer action={() => deleteCard(card._id)}
+                                                                title={'Delete card'}
+                                                                question={'Are you want to delete this card?'}/>
                                         <button name={"update"} disabled={status === 'loading'}
                                                 onClick={() => updateCard(card._id)}>Update</button>
                                     </div>
