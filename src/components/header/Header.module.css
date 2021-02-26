@@ -1,7 +1,20 @@
 
+
+.btnLogout {
+    border: none;
+    color: grey;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+    font-size: 1rem;
+}
+.btnLogout:hover{
+    text-decoration: underline;
+}
+
 .sidebar{
     display: flex;
     align-items: center;
+    width: 1300px;
     background-color: #3c3e41;
     color: #ffffff;
     padding: 15px;
@@ -9,6 +22,9 @@
 }
 
 .menu {
+    display: flex;
+    align-items: center;
+    widht: 1200px;
     cursor: pointer;
     font-size: 40px;
     color: #ffffff;

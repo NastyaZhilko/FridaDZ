@@ -52,6 +52,7 @@ function Packs() {
                         <th><label>Add pack: <button onClick={createPack} disabled={status === 'loading'}>Add</button>
                         </label></th>
                         <th>Cards</th>
+                        <th>Learn</th>
                     </tr>
                     </thead>
                     </div>
