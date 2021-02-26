@@ -128,9 +128,14 @@ export const logout = (): ThunkType => {
     return (dispatch: ThunkDispatch<AppStoreType, unknown, ActionsType>) => {
         authAPI.logout()
             .then(() => dispatch(setAuthUserDataAC(initState.data, false)))
-        dispatch(setShowSuccessModalAC(true))
-        setTimeout(() => {
-            dispatch(setShowSuccessModalAC(false))
-        }, 2000)
+            .catch((e) => {
+                const error = e.response
+                    ? e.response.data.error
+                    : (e.message + ', more details in the console')
+                console.log('Error: ', {...e})
+                console.log(error)
+                dispatch(errorAC(error))
+            })
+        dispatch(toggleIsFetching(false))
     }
 }
