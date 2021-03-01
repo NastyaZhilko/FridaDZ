@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {createCardTC, deleteCardTC, getCardsTC, updateCardTC} from "../../store/packCards-reducer";
@@ -9,12 +9,17 @@ import {CardType} from "../../api/api";
 import {Modal} from "./modal/modal";
 
 
+
 export function PackCards() {
     const {packId} = useParams<{ packId: string }>();
     const dispatch = useDispatch()
     const cards = useSelector<AppStoreType, Array<CardType>>(state => state.packCards.cards)
     const status = useSelector<AppStoreType, IsLoadingValuesType>(state => state.cards.status)
     const show = useSelector<AppStoreType, boolean>(state => state.packCards.showSuccessModal)
+
+    let [displayDeleteModal, setDisplayDeleteModal] = useState(false)
+    let [displayUpdateModal, setDisplayUpdateModal] = useState(false)
+
     useEffect(() => {
         dispatch(getCardsTC(packId))
     }, [dispatch])
@@ -55,6 +60,7 @@ export function PackCards() {
                                 <td>{`${card.updated}`}</td>
                                 <td>
                                     <div className={style.tableItem}>
+                                        {/*<DeleteModal id={card._id} onDeleteCard={deleteCard} disabled={status === 'loading'}/>*/}
                                         <button name={"del"} disabled={status === 'loading'}
                                                 onClick={() => deleteCard(card._id)}>
                                             Delete

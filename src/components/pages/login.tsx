@@ -7,6 +7,7 @@ import {login, LoginFormData} from "../../store/login-reducer";
 import {AppStoreType} from "../../store/store";
 import {Redirect} from "react-router-dom";
 import {Modal} from "./modal/modal";
+import SuperInputText from "../common/SuperInput/SuperInput";
 
 export function Login() {
 
@@ -44,8 +45,8 @@ export function Login() {
        <> <form onSubmit={submitLoginData}>
             <div style={loginStyle}>
                 <h2>Login</h2>
-                <SuperInput name={'email'} placeholder={'Enter your email'}/>
-                <SuperInput name={'password'} type={'password'} placeholder={'Enter your password'}/>
+                <SuperInputText name={'email'} placeholder={'Enter your email'}/>
+                <SuperInputText name={'password'} type={'password'} placeholder={'Enter your password'}/>
                 <div><SuperCheckbox name={'rememberMe'} type={'checkbox'}/>
                     <span>Remember Me</span></div>
                 <SuperButton type={'submit'}>Send</SuperButton>

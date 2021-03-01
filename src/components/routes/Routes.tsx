@@ -38,7 +38,7 @@ function Routes() {
                 <Route path={'/newPassword/:resetPasswordToken'}  render={() => <NewPassword/>}/>
                 <Route path={'/newPassword/'} exact render={ () => <PasswordRecovery/>}/>
                 <Route path={'/cards'} exact render={() => <Cards/>}/>
-                <Route path={'/packs'} exact render={() => <Packs/>}/>
+                <Route path={'/packs'} render={() => <Packs/>}/>
                 <Route path={'/packs/:packId'} exact render={() => <PackCards/>}/>
                 <Route path={'/learn/:packId'} exact render={() => <LearnCard/>}/>
                 <Route render={() => <Error404/>}/>

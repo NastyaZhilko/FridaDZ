@@ -179,9 +179,9 @@ export const changeSliderTC = (page:number, pageCount:number, sortPacks:string, 
     })
 }
 
-export const createPackTC = (): ThunkType => (dispatch) => {
+export const createPackTC = (title: string): ThunkType => (dispatch) => {
     dispatch(setIsLoadingAC("loading"))
-    packsAPI.createPack()
+    packsAPI.createPack(title)
         .then(res => {
             dispatch(getPacksTC())
             dispatch(setIsLoadingAC("idle"))

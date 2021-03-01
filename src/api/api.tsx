@@ -3,7 +3,7 @@ import {LoginFormData} from "../store/login-reducer";
 
 const api = axios.create({
     baseURL: 'https://neko-back.herokuapp.com/2.0',
-    //baseURL: 'http://localhost:7542/2.0/',
+    // baseURL: 'http://localhost:7542/2.0/',
     withCredentials: true
 })
 
@@ -122,11 +122,11 @@ export const packsAPI = {
             }
         })
     },
-    createPack() {
-        return api.post(`cards/pack`, {cardsPack: {name: 'title'}})
+    createPack(title: string) {
+        return api.post(`cards/pack`,  {cardsPack: {name: title}})
     },
     deletePack(id: string) {
-        return api.delete(`cards/pack`, {params: {id}})
+        return api.delete(`cards/pack?id=${id}`)
     },
     updatePack(id: string, name: string) {
         return api.put(`cards/pack/`, {cardsPack: {_id: id, name}})
@@ -194,6 +194,6 @@ export const cardsAPI = {
 }
 export const gradeCardAPI = {
     gradeCard(id: string, grade: number){
-        return api.put("cards/card",  {card: {_id: id, grade}})
+        return api.put("cards/grade",  {grade, card_id:id})
     }
 }
