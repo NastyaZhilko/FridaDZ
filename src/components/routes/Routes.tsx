@@ -6,10 +6,11 @@ import PasswordRecovery from "../pages/password-recovery";
 import Profile from "../pages/profile";
 import Registration from "../pages/registration";
 import NewPassword from "../pages/new-password";
-import {PackCards} from "../pages/PackCards";
-import {Cards} from "../pages/Cards";
 import Packs from "../pages/packs";
-import {LearnCard} from "../pages/learnsPage";
+import {LearnPage} from "../pages/learnsPage";
+import {Cards} from "../pages/cards";
+
+
 
 
 
@@ -37,10 +38,9 @@ function Routes() {
                 <Route path={'/registration'} exact render={() => <Registration/>}/>
                 <Route path={'/newPassword/:resetPasswordToken'}  render={() => <NewPassword/>}/>
                 <Route path={'/newPassword/'} exact render={ () => <PasswordRecovery/>}/>
-                <Route path={'/cards'} exact render={() => <Cards/>}/>
                 <Route path={'/packs'} render={() => <Packs/>}/>
-                <Route path={'/packs/:packId'} exact render={() => <PackCards/>}/>
-                <Route path={'/learn/:packId'} exact render={() => <LearnCard/>}/>
+                <Route path={'/cards/:packId'} exact render={() => <Cards/>}/>
+                <Route path={'/learn/:packId'} exact render={() => <LearnPage/>}/>
                 <Route render={() => <Error404/>}/>
 
 

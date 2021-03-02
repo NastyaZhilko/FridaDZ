@@ -7,19 +7,15 @@ import {SliderAnt} from "../common/PaginationComponent/RangeAnt/RangeAnt";
 import {createPackTC, deletePackTC, getPacksTC, IsLoadingValuesType} from "../../store/packs-reducer";
 import {AppStoreType} from "../../store/store";
 import {CardPacksType} from "../../api/api";
-import {NavLink, Route} from "react-router-dom";
+import {NavLink, Route, useParams} from "react-router-dom";
 import style from './packs.module.css'
-import {Cards} from "./Cards";
-import {Learn} from "./learn";
 import {Modal} from "./modal/modal";
-import SuperButton from "../common/SuperButton/SuperButton";
 import {SuperModal} from "./modal/SuperModal/SuperModal";
-import SuperInputText from "../common/SuperInput/SuperInput";
 import {AddModal} from "./modal/AddModel/AddModal";
 
 
 function Packs() {
-    //const {packId} = useParams<{ packId: string }>();
+    const {packId} = useParams<{ packId: string }>();
     const options = [10, 20, 30, 40, 50]
     const status = useSelector<AppStoreType, IsLoadingValuesType>(state => state.cards.status)
     const packs = useSelector<AppStoreType, Array<CardPacksType>>((state) => state.cards.packs)
@@ -94,8 +90,8 @@ function Packs() {
                                             <button name={"update"} disabled={status === 'loading'}>Update</button>
                                         </div>
                                     </td>
-                                    <td><Cards packId={pack._id}/></td>
-                                    <td><Learn packId={pack._id}/></td>
+                                    <td><NavLink to={`/cards/${pack._id}`}>cards</NavLink></td>
+                                    <td> <NavLink to={`/learn/${pack._id}`}>learn</NavLink></td>
                                 </tr>
                             }
                         )}

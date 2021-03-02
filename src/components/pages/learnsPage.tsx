@@ -9,74 +9,7 @@ import {getCardsTC, gradeTC} from "../../store/packCards-reducer";
 import {Modal} from "./modal/modal";
 
 
-/*export const LearnCard = () => {
-    const {packId} = useParams<{ packId: string }>();
-    const dispatch = useDispatch()
-    const cards = useSelector<AppStoreType, Array<CardType>>(state=>state.packCards.cards)
-    const [isAnswer, setIsAnswer] = useState(false)
-    const [numberCurrentCard, setNumberCurrentCard] = useState(0);
-
-    useEffect(()=>{
-        dispatch(getCardsTC(packId))
-
-    },[])
-
-    const showAnswer = () => {
-        setIsAnswer(true)
-    }
-
-    const checkNextCard = () => {
-        setNumberCurrentCard(sortCards(cards)) ;
-        setIsAnswer(false)
-    }
-
-    const addGrade = (grade: number) => {
-        dispatch(updateCardGradeTC(cards[numberCurrentCard]._id, grade))
-    }
-
-    const sortCards = (cardsPack: CardType[]) => {
-        const gradeArr = cardsPack.map((card, index) => {
-            return {index, grade: card.grade, chance: card.grade !==0 ? (6 - card.grade * Math.random()): 5}
-        });
-        let currentInd = 0;
-        let maxVal = 0;
-        gradeArr.forEach((el, index) => {
-            if( maxVal < el.chance) {
-                currentInd = el.chance;
-                maxVal = el.chance
-            };
-        })
-        return currentInd
-    }
-
-    return(
-        <>
-            <div>{cards[numberCurrentCard] ? cards[numberCurrentCard].question: 'Have no cards'}</div>
-            <button onClick={showAnswer}>Show answer</button>
-
-            <div style={{height:'40px'}}>
-                <div style={isAnswer?undefined:{display:'none'}}>{cards[numberCurrentCard] ? cards[numberCurrentCard].answer: 'Have no cards'}</div>
-            </div>
-
-            <div>
-                <button onClick={() => {addGrade(1)}} name={"oneButton"}>не знал</button>
-                <button onClick={() => {addGrade(2)}} name={"twoButton"}>забыл</button>
-                <button onClick={() => {addGrade(3)}} name={"threeButton"}>долго думал</button>
-                <button onClick={() => {addGrade(4)}} name={"fourButton"}>перепутал</button>
-                <button onClick={() => {addGrade(5)}} name={"fiveButton"}>знал</button>
-            </div>
-            <div>
-                <SuperButton onClick={checkNextCard}>След карточка</SuperButton>
-            </div>
-
-        </>
-    )
-
-}*/
-
-
-
-export const LearnCard = () => {
+export const LearnPage = () => {
     const {packId} = useParams<{ packId: string }>();
     const cards = useSelector<AppStoreType, Array<CardType>>(state => state.packCards.cards);
     const [checkMode, setCheckMode] = useState(false);

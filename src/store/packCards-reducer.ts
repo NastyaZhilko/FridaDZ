@@ -1,4 +1,4 @@
-import {cardsAPI, CardType, gradeCardAPI, packsAPI} from "../api/api";
+import {cardsAPI, CardType, CreateCardRequestType, gradeCardAPI, packsAPI} from "../api/api";
 import {getPacksTC, IsLoadingValuesType} from "./packs-reducer";
 import {ThunkAction} from "redux-thunk";
 import {AppStoreType} from "./store";
@@ -65,12 +65,11 @@ export const getCardsTC = (cardsPackId:string):ThunkType => (dispatch) => {
     })
 }
 
-export const createCardTC = (cardsPack_id: string): ThunkType => (dispatch) => {
+export const createCardTC = (model:CreateCardRequestType): ThunkType => (dispatch) => {
     dispatch(setIsLoadingAC("loading"))
-    cardsAPI.createCard(cardsPack_id)
+    cardsAPI.createCard(model)
         .then(data => {
-            const cards = data.data.cards
-            dispatch(getCardsTC(cardsPack_id))
+            dispatch(getCardsTC(model.cardsPack_id))
             dispatch(setIsLoadingAC("idle"))
             dispatch(setShowSuccessModalAC(true))
             setTimeout(() => {
@@ -105,9 +104,9 @@ export const deleteCardTC = (id: string, packId: string): ThunkType => (dispatch
         })
 }
 
-export const updateCardTC = (id: string, packId: string): ThunkType => (dispatch) => {
+export const updateCardTC = (id: string, packId: string, question: string): ThunkType => (dispatch) => {
     dispatch(setIsLoadingAC("loading"))
-    cardsAPI.updateCard(id)
+    cardsAPI.updateCard(id, question)
         .then(res => {
             dispatch(getCardsTC(packId))
             dispatch(setIsLoadingAC("idle"))

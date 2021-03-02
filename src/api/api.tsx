@@ -177,21 +177,19 @@ export type CreateCardRequestType = {
 
 export const cardsAPI = {
     getCards(cardsPackId: string, pageCount: number = 24, page: number = 1) {
-        return api.get<CardsResponseType>(`cards/card?cardsPack_id=${cardsPackId}&pageCount=${pageCount}&page=${page}`)
+        return api.get(`cards/card?cardsPack_id=${cardsPackId}&pageCount=${pageCount}&page=${page}`)
     },
-    createCard(cardsPack_id:string){
-        return api.post(`cards/card`,{card:{cardsPack_id,question:'new question',answer:'new answer'}})
+    createCard(cardModel:CreateCardRequestType){
+        return api.post(`cards/card`,{card:cardModel})
     },
     deleteCard(id:string){
         return api.delete(`cards/card?id=${id}`)
     },
-    updateCard(id:string){
-        return api.put(`cards/card`,{card:{_id:id, question:'update question',comments:'new'}})
+    updateCard(id:string, question: string, comments?: string ){
+        return api.put(`cards/card`,{card:{_id:id, question,comments}})
     }
-   /* updateCardGrade(card_id:string, grade: number){
-        return api.put(`cards/grade`, {updatedGrade: { grade,_id: card_id}})
-    }*/
 }
+
 export const gradeCardAPI = {
     gradeCard(id: string, grade: number){
         return api.put("cards/grade",  {grade, card_id:id})
