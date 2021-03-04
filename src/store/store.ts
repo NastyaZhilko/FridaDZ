@@ -8,8 +8,10 @@ import {newPasswordReducer} from "./new-password-reducer";
 import thunk from "redux-thunk"
 import packsReducer from "./packs-reducer";
 import {packCardsReducer} from "./packCards-reducer";
+import {appReducer} from "./app-reducer";
 
 const reducers = combineReducers({
+    app:appReducer,
     login:loginReducer,
     error:errorReducer,
     passwordRecovery:passwordRecoveryReducer,

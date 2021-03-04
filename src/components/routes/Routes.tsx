@@ -39,8 +39,9 @@ function Routes() {
                 <Route path={'/newPassword/:resetPasswordToken'}  render={() => <NewPassword/>}/>
                 <Route path={'/newPassword/'} exact render={ () => <PasswordRecovery/>}/>
                 <Route path={'/packs'} render={() => <Packs/>}/>
-                <Route path={'/cards/:packId'} exact render={() => <Cards/>}/>
-                <Route path={'/learn/:packId'} exact render={() => <LearnPage/>}/>
+               {/* <Route path={'/cards'} render={() => <Cards/>}/>*/}
+                <Route path={'/cards/:packId'}  render={() => <Cards/>}/>
+                <Route path={'/learn/:packId'}  render={() => <LearnPage/>}/>
                 <Route render={() => <Error404/>}/>
 
 

@@ -13,6 +13,7 @@ const initState = {
     packsTotalCount:1,
     pageCount: 10,
     page:1,
+    isMyPacks: false,
     sortPacks: '0created',
     minCardsCount:0,
     maxCardsCount:10,
@@ -30,6 +31,7 @@ type ActionsType=
     |ReturnType<typeof sortPacksDownAC>
     |ReturnType<typeof cardsCountAC>
     |ReturnType<typeof setShowSuccessModalAC>
+    |ReturnType<typeof setIsMyPacksAC>
 
 function packsReducer(state=initState, action:ActionsType):InitStateType {
 
@@ -64,6 +66,8 @@ function packsReducer(state=initState, action:ActionsType):InitStateType {
         }
         case "SET-SHOW-SUCCESS-MODAL":
             return {...state, showSuccessModal: action.show}
+        case 'CHECK-IS-MY-PACKS':
+            return {...state, isMyPacks: action.isMyPacks}
 
         default:
             return initState
@@ -86,7 +90,7 @@ const sortPacksDownAC = (filteredPacks: Array<CardPacksType>, sortPacksByDateDow
 const cardsCountAC = (packs:Array<CardPacksType>,  min:number, max:number, packsTotalCount:number) =>
     ({type:'CARDS-COUNT',packs,  min, max, packsTotalCount} as const)
 export const setShowSuccessModalAC = (show: boolean) => ({type: "SET-SHOW-SUCCESS-MODAL", show} as const)
-
+export const setIsMyPacksAC = (isMyPacks: boolean) => ({type: 'CHECK-IS-MY-PACKS', isMyPacks} as const)
 
 //thunks
 export const getPacksTC = () : ThunkType=> (dispatch) => {
@@ -234,3 +238,4 @@ export const updatePackTC = (id: string, name: string): ThunkType => (dispatch) 
             dispatch(setIsLoadingAC("idle"))
         })
 }
+

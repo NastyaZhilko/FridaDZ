@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {PaginationComponent} from "../common/PaginationComponent/PaginationComponent";
 import {SearchComponent} from "../common/SearchComponent/SearchComponent";
 import {SortByDate} from "../common/SortByDate/SortByDate";
 import {SliderAnt} from "../common/PaginationComponent/RangeAnt/RangeAnt";
-import {createPackTC, deletePackTC, getPacksTC, IsLoadingValuesType} from "../../store/packs-reducer";
+import {createPackTC, deletePackTC, getPacksTC, IsLoadingValuesType, setIsMyPacksAC} from "../../store/packs-reducer";
 import {AppStoreType} from "../../store/store";
 import {CardPacksType} from "../../api/api";
 import {NavLink, Route, useParams} from "react-router-dom";
@@ -12,31 +12,55 @@ import style from './packs.module.css'
 import {Modal} from "./modal/modal";
 import {SuperModal} from "./modal/SuperModal/SuperModal";
 import {AddModal} from "./modal/AddModel/AddModal";
+import {RequestStatusType, UserDataType} from "../../store/app-reducer";
+import SuperCheckbox from "../common/SuperCheckbox/SuperCheckbox";
+import {DeleteModal} from "./modal/AddModel/NewModel";
 
 
 function Packs() {
     const {packId} = useParams<{ packId: string }>();
     const options = [10, 20, 30, 40, 50]
+    const userId = useSelector<AppStoreType, string>(state => state.app.UserData ? state.app.UserData._id : "")
+    const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.login.isAuth)
+    const isMyPacks = useSelector<AppStoreType, boolean>(state => state.cards.isMyPacks)
     const status = useSelector<AppStoreType, IsLoadingValuesType>(state => state.cards.status)
     const packs = useSelector<AppStoreType, Array<CardPacksType>>((state) => state.cards.packs)
     const show = useSelector<AppStoreType, boolean>(state => state.cards.showSuccessModal)
     const [displayCreateModal, setDisplayCreateModal] = useState(false)
     const [displayDeleteModal, setDisplayDeleteModal] = useState(false)
     const [displayUpdateModal, setDisplayUpdateModal] = useState(false)
+    const [isMyPackChecked, setIsMyPackChecked] = useState<boolean>(false)
     const dispatch = useDispatch()
-    let [value, setValue] = useState("")
 
+/*    useEffect(() => {
+        if (!isLoggedIn) {
+            dispatch(initializeUser())
+        }
+    }, [isLoggedIn])*/
+    useEffect(() => {
+        if (isLoggedIn) {
+            dispatch(getPacksTC())
+        }
+    }, [isLoggedIn,isMyPacks])
+
+    const showMyPacksHandler = () => {
+        dispatch(setIsMyPacksAC(!isMyPacks))
+    }
 
     const createPack = (title: string) => {
         dispatch(createPackTC(title))
         setDisplayCreateModal(false)
     }
-    const deletePack = (id: string) => dispatch(deletePackTC(id))
-    //const updatePack = (id: string) => dispatch(updatePackTC(id))
-    useEffect(() => {
-        dispatch(getPacksTC())
+    const deletePack = (id: string) => {
+        dispatch(deletePackTC(id))
+        setDisplayDeleteModal(false)
+    }
 
-    }, [dispatch])
+
+    //const updatePack = (id: string) => dispatch(updatePackTC(id))
+
+
+
 
     let top: number;
     if (show) {
@@ -47,6 +71,10 @@ function Packs() {
 
     return (
         <div>
+            <div><div className={style.showMine}>
+                <input type='checkbox' id='myPacks' checked={isMyPacks} onChange={showMyPacksHandler}/>
+                <label htmlFor='myPacks'>Show my packs</label>
+            </div></div>
             <h1>Packs</h1>
             <SliderAnt/>
             <div className={style.table}>
@@ -86,7 +114,7 @@ function Packs() {
                                                         onClick={() => setDisplayDeleteModal(true)}>Delete
                                                 </button>
                                             </NavLink>
-
+                                           
                                             <button name={"update"} disabled={status === 'loading'}>Update</button>
                                         </div>
                                     </td>
@@ -109,8 +137,7 @@ function Packs() {
                    }}
             />
 
-            <Route path={'/packs/:id/delete'} render={() => <SuperModal successClick={deletePack}
-                                                                        component={<input/>}/>}/>
+            <Route path={'/packs/:id/delete'} render={() => <SuperModal successClick={deletePack}/>}/>
             <Route path={'/packs/:id/update'} render={() => <SuperModal successClick={() => {
             }}/>}/>
         </div>

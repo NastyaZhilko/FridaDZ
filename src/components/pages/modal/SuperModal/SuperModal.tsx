@@ -4,6 +4,7 @@ import {Modal} from "../modal";
 import SuperButton from "../../../common/SuperButton/SuperButton";
 
 type PropsType = {
+    id?:string
     successClick: (id: string) => void
     component?: React.ReactNode
 }

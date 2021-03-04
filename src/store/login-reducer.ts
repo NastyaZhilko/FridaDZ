@@ -26,6 +26,7 @@ type UserAuthData = {
     data: UserDataType
     isAuth: boolean
     isFetching: boolean
+    isInitialized: boolean
     error: string | null
     showSuccessModal: boolean
 }
@@ -50,6 +51,7 @@ const initState: UserAuthData = {
     },
     isAuth: false,
     isFetching: false,
+    isInitialized: false,
     error: '',
     showSuccessModal: false
 };
@@ -68,6 +70,8 @@ export const loginReducer = (state = initState, action: ActionsType): UserAuthDa
         }
         case "SET-SHOW-SUCCESS-MODAL":
             return {...state, showSuccessModal: action.show}
+        case "SET-IS-INITIALIZED":
+            return {...state, isInitialized: action.isInitialized}
         default:
             return state;
     }
@@ -81,6 +85,10 @@ const setAuthUserDataAC = (data: UserDataType, isAuth: boolean) => {
 }
 const errorAC = (titleError: string | null) => ({type: 'ERROR', titleError} as const)
 
+const setIsInitialized = (isInitialized: boolean) => ({
+    type: 'SET-IS-INITIALIZED',
+    isInitialized
+} as const)
 const toggleIsFetching = (isFetching: boolean) => ({
     type: 'TOGGLE-IS-FETCHING',
     isFetching
@@ -92,11 +100,38 @@ type ActionsType =
     | ReturnType<typeof errorAC>
     | ReturnType<typeof toggleIsFetching>
     | ReturnType<typeof setShowSuccessModalAC>
+    | ReturnType<typeof setIsInitialized>
 
 type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionsType>
 
 
 export const loginAC = (data: LoginFormData) => ({type: 'LOGIN', data} as const);
+
+/*export const initializeUserTC = (): ThunkType => {
+
+    return (dispatch: ThunkDispatch<AppStoreType, unknown, ActionsType>) => {
+        dispatch(toggleIsFetching(true))
+        authAPI.authMe()
+            .then(response => {
+                let data: UserDataType = response.data
+                let isAuth = true
+                dispatch(setIsInitialized(true))
+                dispatch(setShowSuccessModalAC(true))
+                setTimeout(() => {
+                    dispatch(setShowSuccessModalAC(false))
+                }, 2000)
+            })
+            .catch((e) => {
+                const error = e.response
+                    ? e.response.data.error
+                    : (e.message + ', more details in the console')
+                console.log('Error: ', {...e})
+                console.log(error)
+                dispatch(errorAC(error))
+            })
+        dispatch(toggleIsFetching(false))
+    }
+}*/
 
 export const login = (data: LoginFormData): ThunkType => {
 
