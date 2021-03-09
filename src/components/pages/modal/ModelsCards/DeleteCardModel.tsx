@@ -1,6 +1,4 @@
-
 import React, {FC, useState} from 'react';
-import {useHistory, useParams} from "react-router-dom";
 import {Modal} from "../modal";
 import SuperButton from "../../../common/SuperButton/SuperButton";
 

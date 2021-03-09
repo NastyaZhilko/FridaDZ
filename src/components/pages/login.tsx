@@ -5,9 +5,12 @@ import SuperButton from "../common/SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
 import {login, LoginFormData} from "../../store/login-reducer";
 import {AppStoreType} from "../../store/store";
-import {Redirect} from "react-router-dom";
+import {NavLink, Redirect} from "react-router-dom";
 import {Modal} from "./modal/modal";
 import SuperInputText from "../common/SuperInput/SuperInput";
+import s from "../header/Header.module.css";
+import {PATH} from "../routes/Routes";
+
 
 export function Login() {
 
@@ -18,6 +21,8 @@ export function Login() {
     if (isAuth) {
         return <Redirect to={'/profile'} />
     }
+
+
 
     const submitLoginData = (e: FormEvent<HTMLFormElement>) => {
 
@@ -49,7 +54,19 @@ export function Login() {
                 <SuperInputText name={'password'} type={'password'} placeholder={'Enter your password'}/>
                 <div><SuperCheckbox name={'rememberMe'} type={'checkbox'}/>
                     <span>Remember Me</span></div>
-                <SuperButton type={'submit'}>Send</SuperButton>
+                <SuperButton type={'submit'}>Login</SuperButton>
+                <div>
+
+                    <NavLink to={PATH.passwordRecovery} className={s.inactive} activeClassName={s.active}>
+                        Forgot Password?
+                       </NavLink>
+
+                    <NavLink to={PATH.registration} className={s.inactive}
+                             activeClassName={s.active}>  Registration  </NavLink>
+
+                </div>
+
+
             </div>
         </form>
            <Modal title={"Success"} width={100} height={50} backgroundDiv={false} bgOnClick={() => {}}

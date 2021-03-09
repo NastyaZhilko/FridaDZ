@@ -8,6 +8,7 @@ import {Redirect} from "react-router-dom";
 import {passwordRecoveryTC} from "../../store/password-recovery-reducer";
 import Loading from "./Loading";
 
+
 function PasswordRecovery() {
     const dispatch = useDispatch()
     //const isMailSend = useSelector<AppStoreType, boolean>(state => state.passwordRecovery.isMessageSend)
@@ -27,13 +28,15 @@ function PasswordRecovery() {
   /*  if (isMailSend) {
         return <Redirect to={'/login'}/>
     }*/
+
     return (
         <form onSubmit={sendMail}>
-        <div>
-            <h3>Password recovery</h3>
+        <div className={style.block}>
+            <h3>Reset Password Page</h3>
             <div className={style.container}>
                 <SuperInputText name={'email'}  placeholder={'Email'}/>
-                <span>Enter your email</span>
+                <span className={style.text}>Please enter your email address so
+                    that we will send you a link to reset your password.</span>
                 <SuperButton>
                     Send
                 </SuperButton>

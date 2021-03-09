@@ -1,16 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {createCardTC, deleteCardTC, getCardsTC, updateCardTC} from "../../store/packCards-reducer";
+import {createCardTC, deleteCardTC, getCardsTC} from "../../store/packCards-reducer";
 import {IsLoadingValuesType} from "../../store/packs-reducer";
 import style from "./packs.module.css";
 import {AppStoreType} from "../../store/store";
 import {CardType} from "../../api/api";
 import {Modal} from "./modal/modal";
-import {AddModal} from "./modal/AddModel/AddModal";
-import {AddCardModal} from "./modal/AddModel/AddCardModal";
-import {DeleteModal} from "./modal/AddModel/NewModel";
-
+import {AddCardModal} from "./modal/ModelsCards/AddCardModal";
+import {DeleteModal} from "./modal/ModelsCards/DeleteCardModel";
 
 
 export function Cards() {

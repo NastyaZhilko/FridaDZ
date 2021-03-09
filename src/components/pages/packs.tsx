@@ -7,14 +7,14 @@ import {SliderAnt} from "../common/PaginationComponent/RangeAnt/RangeAnt";
 import {createPackTC, deletePackTC, getPacksTC, IsLoadingValuesType, setIsMyPacksAC} from "../../store/packs-reducer";
 import {AppStoreType} from "../../store/store";
 import {CardPacksType} from "../../api/api";
-import {NavLink, Route, useParams} from "react-router-dom";
+import {NavLink, Redirect, Route, useParams} from "react-router-dom";
 import style from './packs.module.css'
 import {Modal} from "./modal/modal";
 import {SuperModal} from "./modal/SuperModal/SuperModal";
-import {AddModal} from "./modal/AddModel/AddModal";
+import {AddModal} from "./modal/ModelsCards/AddPackModal";
 import {RequestStatusType, UserDataType} from "../../store/app-reducer";
 import SuperCheckbox from "../common/SuperCheckbox/SuperCheckbox";
-import {DeleteModal} from "./modal/AddModel/NewModel";
+import {DeleteModal} from "./modal/ModelsCards/DeleteCardModel";
 
 
 function Packs() {
@@ -30,6 +30,7 @@ function Packs() {
     const [displayDeleteModal, setDisplayDeleteModal] = useState(false)
     const [displayUpdateModal, setDisplayUpdateModal] = useState(false)
     const [isMyPackChecked, setIsMyPackChecked] = useState<boolean>(false)
+    const isAuth = useSelector<AppStoreType, boolean>(state => state.login.isAuth)
     const dispatch = useDispatch()
 
 /*    useEffect(() => {
@@ -38,10 +39,10 @@ function Packs() {
         }
     }, [isLoggedIn])*/
     useEffect(() => {
-        if (isLoggedIn) {
+
             dispatch(getPacksTC())
-        }
-    }, [isLoggedIn,isMyPacks])
+
+    }, [isMyPacks])
 
     const showMyPacksHandler = () => {
         dispatch(setIsMyPacksAC(!isMyPacks))
@@ -56,6 +57,10 @@ function Packs() {
         setDisplayDeleteModal(false)
     }
 
+   /* if (!isAuth){
+
+        return <Redirect to={'/login'} />
+    }*/
 
     //const updatePack = (id: string) => dispatch(updatePackTC(id))
 
@@ -110,7 +115,7 @@ function Packs() {
                                     <td>
                                         <div className={style.tableItem}>
                                             <NavLink to={`/packs/${pack._id}/delete`}>
-                                                <button name={"del"} disabled={status === 'loading'}
+                                                <button name={"del"} disabled={status === 'loading' ||!isAuth}
                                                         onClick={() => setDisplayDeleteModal(true)}>Delete
                                                 </button>
                                             </NavLink>
