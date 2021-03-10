@@ -4,17 +4,25 @@ import {PaginationComponent} from "../common/PaginationComponent/PaginationCompo
 import {SearchComponent} from "../common/SearchComponent/SearchComponent";
 import {SortByDate} from "../common/SortByDate/SortByDate";
 import {SliderAnt} from "../common/PaginationComponent/RangeAnt/RangeAnt";
-import {createPackTC, deletePackTC, getPacksTC, IsLoadingValuesType, setIsMyPacksAC} from "../../store/packs-reducer";
+import {
+    createPackTC,
+    deletePackTC,
+    getPacksTC,
+    IsLoadingValuesType,
+    setIsMyPacksAC,
+    updatePackTC
+} from "../../store/packs-reducer";
 import {AppStoreType} from "../../store/store";
 import {CardPacksType} from "../../api/api";
 import {NavLink, Redirect, Route, useParams} from "react-router-dom";
 import style from './packs.module.css'
 import {Modal} from "./modal/modal";
-import {SuperModal} from "./modal/SuperModal/SuperModal";
-import {AddModal} from "./modal/ModelsCards/AddPackModal";
+import {DeletePackModal} from "./modal/ModelsPacks/DeletePackModal";
+import {AddModal} from "./modal/ModelsPacks/AddPackModal";
 import {RequestStatusType, UserDataType} from "../../store/app-reducer";
 import SuperCheckbox from "../common/SuperCheckbox/SuperCheckbox";
-import {DeleteModal} from "./modal/ModelsCards/DeleteCardModel";
+import {DeleteCardModal} from "./modal/ModelsCards/DeleteCardModel";
+import {UpdatePackModal} from "./modal/ModelsPacks/UpdatePackModal";
 
 
 function Packs() {
@@ -33,16 +41,16 @@ function Packs() {
     const isAuth = useSelector<AppStoreType, boolean>(state => state.login.isAuth)
     const dispatch = useDispatch()
 
-/*    useEffect(() => {
-        if (!isLoggedIn) {
-            dispatch(initializeUser())
-        }
-    }, [isLoggedIn])*/
+    /*    useEffect(() => {
+            if (!isLoggedIn) {
+                dispatch(initializeUser())
+            }
+        }, [isLoggedIn])*/
     useEffect(() => {
 
-            dispatch(getPacksTC())
+        dispatch(getPacksTC())
 
-    }, [isMyPacks])
+    }, [])
 
     const showMyPacksHandler = () => {
         dispatch(setIsMyPacksAC(!isMyPacks))
@@ -57,14 +65,14 @@ function Packs() {
         setDisplayDeleteModal(false)
     }
 
-   /* if (!isAuth){
+    const updatePack = (id: string, title: string) => {
+        dispatch(updatePackTC(id, title))
+        setDisplayUpdateModal(false)
+    }
+    /*  if (!isAuth){
 
-        return <Redirect to={'/login'} />
-    }*/
-
-    //const updatePack = (id: string) => dispatch(updatePackTC(id))
-
-
+          return <Redirect to={'/login'} />
+      }*/
 
 
     let top: number;
@@ -76,10 +84,12 @@ function Packs() {
 
     return (
         <div>
-            <div><div className={style.showMine}>
-                <input type='checkbox' id='myPacks' checked={isMyPacks} onChange={showMyPacksHandler}/>
-                <label htmlFor='myPacks'>Show my packs</label>
-            </div></div>
+            <div>
+                <div className={style.showMine}>
+                    <input type='checkbox' id='myPacks' checked={isMyPacks} onChange={showMyPacksHandler}/>
+                    <label htmlFor='myPacks'>Show my packs</label>
+                </div>
+            </div>
             <h1>Packs</h1>
             <SliderAnt/>
             <div className={style.table}>
@@ -95,7 +105,7 @@ function Packs() {
                                 <div className={style.ceil}>Update <SortByDate/></div>
                             </th>
                             <th><label>Add pack: <button onClick={() => setDisplayCreateModal(true)}
-                                                         disabled={status === 'loading'}>Add</button>
+                                                         disabled={status === 'loading'  || !isAuth}>Add</button>
                                 {displayCreateModal && <AddModal createItem={createPack}/>}
 
                             </label></th>
@@ -115,16 +125,19 @@ function Packs() {
                                     <td>
                                         <div className={style.tableItem}>
                                             <NavLink to={`/packs/${pack._id}/delete`}>
-                                                <button name={"del"} disabled={status === 'loading' ||!isAuth}
+                                                <button name={"del"} disabled={status === 'loading' || !isAuth}
                                                         onClick={() => setDisplayDeleteModal(true)}>Delete
                                                 </button>
                                             </NavLink>
-                                           
-                                            <button name={"update"} disabled={status === 'loading'}>Update</button>
+                                            <NavLink to={`/packs/${pack._id}/update`}>
+                                                <button name={"update"} disabled={status === 'loading' || !isAuth}
+                                                        onClick={() => setDisplayUpdateModal(true)}>Update
+                                                </button>
+                                            </NavLink>
                                         </div>
                                     </td>
                                     <td><NavLink to={`/cards/${pack._id}`}>cards</NavLink></td>
-                                    <td> <NavLink to={`/learn/${pack._id}`}>learn</NavLink></td>
+                                    <td><NavLink to={`/learn/${pack._id}`}>learn</NavLink></td>
                                 </tr>
                             }
                         )}
@@ -142,9 +155,8 @@ function Packs() {
                    }}
             />
 
-            <Route path={'/packs/:id/delete'} render={() => <SuperModal successClick={deletePack}/>}/>
-            <Route path={'/packs/:id/update'} render={() => <SuperModal successClick={() => {
-            }}/>}/>
+            <Route path={'/packs/:id/delete'} render={() => <DeletePackModal successClick={deletePack}/>}/>
+            <Route path={'/packs/:id/update'} render={() => <UpdatePackModal updateTitle={updatePack}/>}/>
         </div>
     )
 }

@@ -109,7 +109,8 @@ export const packsAPI = {
         pageCount: number = 10,
         sortPacks: string = '0created',
         min: number = 0,
-        max: number = 24
+        max: number = 24,
+        user_id?:string | undefined
     ) {
         return api.get<CardPacksResponseType>('/cards/pack', {
 
@@ -118,7 +119,8 @@ export const packsAPI = {
                 pageCount,
                 sortPacks,
                 min,
-                max
+                max,
+                user_id
             }
         })
     },
@@ -185,8 +187,8 @@ export const cardsAPI = {
     deleteCard(id:string){
         return api.delete(`cards/card?id=${id}`)
     },
-    updateCard(id:string, question: string, comments?: string ){
-        return api.put(`cards/card`,{card:{_id:id, question,comments}})
+    updateCard(id:string, question: string, answer: string ){
+        return api.put(`cards/card`,{card:{_id:id, question, answer}})
     }
 }
 

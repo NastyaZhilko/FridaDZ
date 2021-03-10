@@ -8,7 +8,7 @@ type PropsType = {
     successClick: (id: string) => void
     component?: React.ReactNode
 }
-export const SuperModal: FC<PropsType> = ({successClick, component}) => {
+export const DeletePackModal: FC<PropsType> = ({successClick, component}) => {
 
     const {id} = useParams<{id: string}>()
 

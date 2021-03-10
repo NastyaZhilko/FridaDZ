@@ -104,9 +104,9 @@ export const deleteCardTC = (id: string, packId: string): ThunkType => (dispatch
         })
 }
 
-export const updateCardTC = (id: string, packId: string, question: string): ThunkType => (dispatch) => {
+export const updateCardTC = (id: string,  question: string, answer: string, packId: string): ThunkType => (dispatch) => {
     dispatch(setIsLoadingAC("loading"))
-    cardsAPI.updateCard(id, question)
+    cardsAPI.updateCard(id, question, answer)
         .then(res => {
             dispatch(getCardsTC(packId))
             dispatch(setIsLoadingAC("idle"))

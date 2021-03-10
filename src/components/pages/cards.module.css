@@ -3,7 +3,6 @@
 }
 .table {
     border: 1px solid red;
-    width: 80%;
     display: flex;
     justify-content: space-between;
     height: 20px

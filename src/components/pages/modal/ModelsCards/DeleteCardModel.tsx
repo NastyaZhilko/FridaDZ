@@ -7,10 +7,10 @@ type PropsType = {
     id: string
     disabled?:boolean
 }
-export const DeleteModal: FC<PropsType> = ({onDeleteCard, id}) => {
+export const DeleteCardModal: FC<PropsType> = ({onDeleteCard, id}) => {
     const [modal, setModal] = useState<boolean>(false)
 
-    return <Modal   bgOnClick={() => setModal(true)}
+    return <Modal bgOnClick={() => setModal(true)}
                   title={"Are you sure?"} width={500} height={200}
                   backgroundDiv={true}>
         <div style={{display: "flex", justifyContent: "space-around"}}>
